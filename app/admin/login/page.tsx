@@ -16,8 +16,7 @@ export default function AdminLoginPage() {
           </p>
           <h1 className="mt-2 text-2xl font-bold">Masuk dashboard admin</h1>
           <p className="mt-2 text-sm text-zinc-400">
-            Gunakan akun Supabase Auth yang profil aplikasinya memiliki role
-            ADMIN.
+            Gunakan akun khusus admin yang diberikan oleh developer!
           </p>
         </div>
         <AdminLoginForm />
