@@ -3,7 +3,7 @@ interface BookingStepperProps {
 }
 
 const steps = [
-  { number: "01", label: "Cabang Garasi", id: "step-cabang" },
+  { number: "01", label: "Cabang", id: "step-cabang" },
   { number: "02", label: "Capster Master", id: "step-capster" },
   { number: "03", label: "Layanan & Paket", id: "step-layanan" },
   { number: "04", label: "Tanggal & Slot Jam", id: "step-waktu" },
@@ -27,8 +27,8 @@ export function BookingStepper({ currentStep = 1 }: BookingStepperProps) {
                   isCurrent
                     ? "text-[#FAFAFA] font-bold"
                     : isCompleted
-                    ? "text-[#FAFAFA]"
-                    : "text-[#A1A1AA]"
+                      ? "text-[#FAFAFA]"
+                      : "text-[#A1A1AA]"
                 }`}
               >
                 <span

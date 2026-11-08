@@ -38,8 +38,8 @@ export function HeroSection({
             <p className="text-base sm:text-lg text-[#A1A1AA] max-w-2xl leading-relaxed">
               Tempat potong rambut paling santai di Bandung Raya. Gak ada drama
               antre lama apalagi hasil potongan buru-buru. Tinggal pilih jadwal,
-              pilih capster andalan lu, dan nikmati potongan presisi standar
-              garasi mekanik sambil ngopi santai.
+              pilih capster andalan lu, dan nikmati potongan presisi sambil
+              ngopi santai.
             </p>
 
             {/* CTAs */}

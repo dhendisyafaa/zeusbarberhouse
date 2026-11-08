@@ -57,7 +57,7 @@ export function StepServices({
                     {service.title}
                   </span>
                   <span className="mt-1 block text-xs leading-relaxed text-[#A1A1AA]">
-                    {service.description || "Layanan tersedia untuk booking."}
+                    {service.description || "Layanan tersedia untuk dibooking."}
                   </span>
                 </span>
                 <span className="mt-4 flex items-center justify-between border-t border-[#27272A] pt-3">
@@ -67,9 +67,13 @@ export function StepServices({
                   </span>
                   <span className="flex items-center gap-2 font-heading text-lg font-bold text-[#FAFAFA]">
                     Rp {service.price.toLocaleString("id-ID")}
-                    <span className={`flex h-5 w-5 items-center justify-center border ${
-                      isSelected ? "border-[#0033A0] bg-[#0033A0]" : "border-[#52525B]"
-                    }`}>
+                    <span
+                      className={`flex h-5 w-5 items-center justify-center border ${
+                        isSelected
+                          ? "border-[#0033A0] bg-[#0033A0]"
+                          : "border-[#52525B]"
+                      }`}
+                    >
                       <Check className="h-3.5 w-3.5" />
                     </span>
                   </span>

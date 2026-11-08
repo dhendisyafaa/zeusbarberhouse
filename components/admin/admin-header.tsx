@@ -14,11 +14,13 @@ export function AdminHeader({
   selectedBranch,
   onBranchChange,
 }: AdminHeaderProps) {
-  const currentDate = new Date().toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  }).toUpperCase();
+  const currentDate = new Date()
+    .toLocaleDateString("id-ID", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+    })
+    .toUpperCase();
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 flex h-16 items-center justify-between border-b border-[#27272A] bg-[#1A1A1D]/95 pl-14 pr-3 backdrop-blur-md sm:px-6 sm:pl-16 lg:left-72 lg:pl-6">
@@ -39,8 +41,12 @@ export function AdminHeader({
               SEMUA CABANG (BDG RAYA)
             </option>
             {branches.map((b) => (
-              <option key={b.id} value={b.id} className="bg-[#1A1A1D] text-[#FAFAFA]">
-                GARASI {b.name.toUpperCase()}
+              <option
+                key={b.id}
+                value={b.id}
+                className="bg-[#1A1A1D] text-[#FAFAFA]"
+              >
+                CABANG {b.name.toUpperCase()}
               </option>
             ))}
           </select>

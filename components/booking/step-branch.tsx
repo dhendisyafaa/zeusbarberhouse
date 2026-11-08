@@ -32,7 +32,7 @@ export function StepBranch({
             1
           </span>
           <h2 className="font-heading text-xl sm:text-2xl font-bold uppercase text-[#FAFAFA] tracking-tight">
-            PILIH CABANG GARASI RESMI
+            PILIH CABANG RESMI
           </h2>
         </div>
         <span className="hidden text-xs font-semibold uppercase tracking-wider text-[#A1A1AA] sm:inline-block">

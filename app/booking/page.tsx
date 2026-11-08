@@ -21,7 +21,7 @@ export default function BookingPage() {
         <Suspense
           fallback={
             <div className="w-full py-32 flex items-center justify-center text-sm font-semibold uppercase tracking-wider text-[#A1A1AA]">
-              Memuat Sistem Reservasi Garasi...
+              Memuat Sistem Reservasi ...
             </div>
           }
         >

@@ -97,10 +97,10 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Col 2: Cabang Garasi */}
+          {/* Col 2: Cabang */}
           <div className="flex flex-col gap-4 lg:border-l lg:border-[#27272A] lg:pl-8">
             <span className="font-heading text-sm font-bold uppercase tracking-wider text-[#FAFAFA] flex items-center gap-2">
-              CABANG GARASI
+              CABANG
             </span>
 
             <p className="text-xs leading-relaxed text-[#A1A1AA]">
@@ -117,7 +117,7 @@ export function Footer() {
           {/* Col 3: Jam Operasional */}
           <div className="flex flex-col gap-4 lg:border-l lg:border-[#27272A] lg:pl-8">
             <span className="font-heading text-sm font-bold uppercase tracking-wider text-[#FAFAFA] flex items-center gap-2">
-              JAM BUKA GARASI
+              JAM BUKA CABANG
             </span>
 
             <p className="text-xs leading-relaxed text-[#A1A1AA]">

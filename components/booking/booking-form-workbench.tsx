@@ -48,7 +48,12 @@ type ServiceApiRow = {
 type AvailabilityResponse = { date: string; slots: string[] };
 type BookingCustomerProfile = {
   profile: { id: string; role: string };
-  customer: { id: string; name: string; email: string | null; phone: string | null };
+  customer: {
+    id: string;
+    name: string;
+    email: string | null;
+    phone: string | null;
+  };
 };
 type BookingResponse = {
   id: string;
@@ -104,25 +109,29 @@ export function BookingFormWorkbench() {
   });
   const customerProfileQuery = useQuery({
     queryKey: customerQueryKeys.bookingProfile,
-    queryFn: () => fetchApiData<BookingCustomerProfile>("/api/customer/profile"),
+    queryFn: () =>
+      fetchApiData<BookingCustomerProfile>("/api/customer/profile"),
     retry: false,
     staleTime: 0,
     refetchOnMount: "always",
   });
-  const customerProfile = !customerProfileQuery.isError &&
+  const customerProfile =
+    !customerProfileQuery.isError &&
     customerProfileQuery.data?.profile.role === "CUSTOMER"
-    ? customerProfileQuery.data.customer
-    : null;
-  const isGuestBooking = (customerProfileQuery.isError &&
-    customerProfileQuery.error instanceof ApiResponseError &&
-    [401, 403, 404].includes(customerProfileQuery.error.status)) ||
+      ? customerProfileQuery.data.customer
+      : null;
+  const isGuestBooking =
+    (customerProfileQuery.isError &&
+      customerProfileQuery.error instanceof ApiResponseError &&
+      [401, 403, 404].includes(customerProfileQuery.error.status)) ||
     (customerProfileQuery.isSuccess &&
       customerProfileQuery.data.profile.role !== "CUSTOMER");
-  const profileLoadError = customerProfileQuery.isError && !isGuestBooking
-    ? customerProfileQuery.error instanceof Error
-      ? customerProfileQuery.error.message
-      : "Profil akun tidak dapat diperiksa."
-    : "";
+  const profileLoadError =
+    customerProfileQuery.isError && !isGuestBooking
+      ? customerProfileQuery.error instanceof Error
+        ? customerProfileQuery.error.message
+        : "Profil akun tidak dapat diperiksa."
+      : "";
   const branches = branchesQuery.data ?? [];
   const services = servicesQuery.data;
   const activeBranch =
@@ -132,7 +141,7 @@ export function BookingFormWorkbench() {
     ) ?? branches[0];
   const branchOptions: BranchOption[] = branches.map((branch, index) => ({
     id: branch.id,
-    number: `GARASI #${String(index + 1).padStart(2, "0")}`,
+    number: `CABANG #${String(index + 1).padStart(2, "0")}`,
     name: branch.name,
     city: branch.city,
     address: branch.address,
@@ -250,7 +259,8 @@ export function BookingFormWorkbench() {
     !customerProfileQuery.isPending &&
     !customerProfileQuery.isFetching &&
     !profileLoadError &&
-    (!isGuestBooking || (customerData.name.trim() && customerData.phone.trim())) &&
+    (!isGuestBooking ||
+      (customerData.name.trim() && customerData.phone.trim())) &&
     !createBookingMutation.isPending,
   );
 
@@ -292,31 +302,34 @@ export function BookingFormWorkbench() {
   const handleCreateBooking = () => {
     if (!isValidToSubmit || !activeBranch || !selectedCapster) return;
     const startsAt = new Date(`${selectedDateKey}T${selectedTime}:00+07:00`);
-    createBookingMutation.mutate({
-      branchId: activeBranch.id,
-      barberId: selectedCapster.id,
-      serviceIds: selectedServices.map((service) => service.id),
-      startsAt: startsAt.toISOString(),
-      ...(isGuestBooking
-        ? {
-            guestName: customerData.name.trim(),
-            guestPhone: customerData.phone.trim(),
-          }
-        : {}),
-      note: customerData.notes.trim(),
-    }, {
-      onSuccess: (booking) => {
-        setCreatedBooking({
-          ...booking,
-          paymentSummary: {
-            branchName: activeBranch.name,
-            datetimeLabel: formattedDateTime,
-            totalPrice,
-          },
-        });
-        resetBookingForm();
+    createBookingMutation.mutate(
+      {
+        branchId: activeBranch.id,
+        barberId: selectedCapster.id,
+        serviceIds: selectedServices.map((service) => service.id),
+        startsAt: startsAt.toISOString(),
+        ...(isGuestBooking
+          ? {
+              guestName: customerData.name.trim(),
+              guestPhone: customerData.phone.trim(),
+            }
+          : {}),
+        note: customerData.notes.trim(),
       },
-    });
+      {
+        onSuccess: (booking) => {
+          setCreatedBooking({
+            ...booking,
+            paymentSummary: {
+              branchName: activeBranch.name,
+              datetimeLabel: formattedDateTime,
+              totalPrice,
+            },
+          });
+          resetBookingForm();
+        },
+      },
+    );
   };
   const loadError =
     branchesQuery.error ??
@@ -423,11 +436,16 @@ export function BookingFormWorkbench() {
               selectedServiceCount={selectedServices.length}
               totalDurationMinutes={totalDuration}
               isLoading={
-                Boolean(activeBranch?.id && selectedCapster?.id && selectedServices.length) &&
-                availabilityQuery.isFetching
+                Boolean(
+                  activeBranch?.id &&
+                  selectedCapster?.id &&
+                  selectedServices.length,
+                ) && availabilityQuery.isFetching
               }
               availabilityError={
-                activeBranch && selectedCapster && selectedServices.length > 0 &&
+                activeBranch &&
+                selectedCapster &&
+                selectedServices.length > 0 &&
                 availabilityQuery.error instanceof Error
                   ? availabilityQuery.error.message
                   : ""
@@ -442,7 +460,10 @@ export function BookingFormWorkbench() {
             <StepCustomer
               formData={customerData}
               customer={customerProfile}
-              isCheckingProfile={customerProfileQuery.isPending || customerProfileQuery.isFetching}
+              isCheckingProfile={
+                customerProfileQuery.isPending ||
+                customerProfileQuery.isFetching
+              }
               profileError={profileLoadError}
               onChange={handleCustomerChange}
               onRetryProfile={() => void customerProfileQuery.refetch()}
@@ -470,20 +491,19 @@ export function BookingFormWorkbench() {
           Mengunci jadwal…
         </p>
       )}
-      {createdBooking?.holdExpiresAt &&
-        createdBooking.paymentSummary && (
-          <SoftLockModal
-            isOpen
-            onClose={() => setCreatedBooking(null)}
-            branchName={createdBooking.paymentSummary.branchName}
-            datetimeLabel={createdBooking.paymentSummary.datetimeLabel}
-            totalPrice={createdBooking.paymentSummary.totalPrice}
-            ticketCode={createdBooking.id.slice(0, 8).toUpperCase()}
-            bookingId={createdBooking.id}
-            holdExpiresAt={createdBooking.holdExpiresAt}
-            guestAccessToken={createdBooking.guestAccessToken}
-          />
-        )}
+      {createdBooking?.holdExpiresAt && createdBooking.paymentSummary && (
+        <SoftLockModal
+          isOpen
+          onClose={() => setCreatedBooking(null)}
+          branchName={createdBooking.paymentSummary.branchName}
+          datetimeLabel={createdBooking.paymentSummary.datetimeLabel}
+          totalPrice={createdBooking.paymentSummary.totalPrice}
+          ticketCode={createdBooking.id.slice(0, 8).toUpperCase()}
+          bookingId={createdBooking.id}
+          holdExpiresAt={createdBooking.holdExpiresAt}
+          guestAccessToken={createdBooking.guestAccessToken}
+        />
+      )}
     </div>
   );
 }
