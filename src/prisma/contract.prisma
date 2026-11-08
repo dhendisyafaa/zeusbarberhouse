@@ -1,0 +1,461 @@
+// use prisma-8
+enum ProfileRole {
+  CUSTOMER
+  ADMIN
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  AWAITING_CONFIRMATION
+  CONFIRMED
+  REJECTED
+  COMPLETED
+  CANCELLED
+}
+
+enum TransactionStatus {
+  PENDING
+  PARTIALLY_PAID
+  PAID
+  VOIDED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  CASH
+  BANK_TRANSFER
+  QRIS
+}
+
+enum PaymentStatus {
+  PENDING
+  PROOF_SUBMITTED
+  VERIFIED
+  REJECTED
+}
+
+enum MembershipStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
+
+enum JobApplicationStatus {
+  SUBMITTED
+  REVIEWING
+  ACCEPTED
+  REJECTED
+}
+
+model Profile {
+  id                             String                       @id @onCreate(uuid())
+  authUserId                     String                       @unique
+  role                           ProfileRole                  @default(CUSTOMER)
+  customer                       Customer?
+  createdTransactions            Transaction[]                @relation("TransactionCreator")
+  paymentStatusEvents            PaymentStatusEvent[]         @relation("PaymentStatusActor")
+  bookingStatusEvents            BookingStatusEvent[]         @relation("BookingStatusActor")
+  jobApplicationEvents           JobApplicationStatusEvent[]  @relation("JobApplicationStatusActor")
+  membershipPointEntries         MembershipPointTransaction[] @relation("MembershipPointActor")
+  updatedMembershipPointPolicies MembershipPointPolicy[]      @relation("MembershipPointPolicyUpdater")
+  createdAt                      DateTime                     @default(now()) @onCreate(now())
+  updatedAt                      temporal.UpdatedAt
+}
+
+model Customer {
+  id           String             @id @onCreate(uuid())
+  profileId    String?            @unique
+  profile      Profile?           @relation(fields: [profileId], references: [id])
+  name         String
+  email        String?
+  phone        String?
+  bookings     Booking[]
+  transactions Transaction[]
+  membership   Membership?
+  createdAt    DateTime           @default(now()) @onCreate(now())
+  updatedAt    temporal.UpdatedAt
+
+  @@index([phone])
+}
+
+model Branch {
+  id            String             @id @onCreate(uuid())
+  name          String
+  slug          String             @unique
+  address       String
+  city          String
+  phone         String?
+  mapsUrl       String?
+  isActive      Boolean            @default(true)
+  barbers       Barber[]
+  schedules     BranchSchedule[]
+  bookings      Booking[]
+  transactions  Transaction[]
+  haircutModels HaircutModel[]
+  createdAt     DateTime           @default(now()) @onCreate(now())
+  updatedAt     temporal.UpdatedAt
+
+  @@index([isActive])
+}
+
+model BranchSchedule {
+  id          String             @id @onCreate(uuid())
+  branchId    String
+  branch      Branch             @relation(fields: [branchId], references: [id])
+  dayOfWeek   Int
+  openMinute  Int
+  closeMinute Int
+  createdAt   DateTime           @default(now()) @onCreate(now())
+  updatedAt   temporal.UpdatedAt
+
+  @@unique([branchId, dayOfWeek])
+}
+
+model Barber {
+  id        String             @id @onCreate(uuid())
+  branchId  String
+  branch    Branch             @relation(fields: [branchId], references: [id])
+  name      String
+  bio       String?
+  photoPath String?
+  isActive  Boolean            @default(true)
+  schedules BarberSchedule[]
+  timeOff   BarberTimeOff[]
+  bookings  Booking[]
+  createdAt DateTime           @default(now()) @onCreate(now())
+  updatedAt temporal.UpdatedAt
+
+  @@index([branchId, isActive])
+}
+
+model BarberSchedule {
+  id               String             @id @onCreate(uuid())
+  barberId         String
+  barber           Barber             @relation(fields: [barberId], references: [id])
+  dayOfWeek        Int
+  startMinute      Int
+  endMinute        Int
+  breakStartMinute Int?
+  breakEndMinute   Int?
+  createdAt        DateTime           @default(now()) @onCreate(now())
+  updatedAt        temporal.UpdatedAt
+
+  @@unique([barberId, dayOfWeek])
+}
+
+model BarberTimeOff {
+  id        String             @id @onCreate(uuid())
+  barberId  String
+  barber    Barber             @relation(fields: [barberId], references: [id])
+  startsAt  DateTime
+  endsAt    DateTime
+  reason    String?
+  createdAt DateTime           @default(now()) @onCreate(now())
+  updatedAt temporal.UpdatedAt
+
+  @@index([barberId, startsAt, endsAt])
+}
+
+model Service {
+  id               String             @id @onCreate(uuid())
+  name             String
+  description      String?
+  priceRupiah      Int
+  durationMinutes  Int
+  imagePath        String?
+  isActive         Boolean            @default(true)
+  sortOrder        Int                @default(0)
+  bookingItems     BookingItem[]
+  transactionItems TransactionItem[]
+  createdAt        DateTime           @default(now()) @onCreate(now())
+  updatedAt        temporal.UpdatedAt
+
+  @@index([isActive, sortOrder])
+}
+
+model Booking {
+  id                    String                       @id @onCreate(uuid())
+  customerId            String?
+  customer              Customer?                    @relation(fields: [customerId], references: [id])
+  branchId              String
+  branch                Branch                       @relation(fields: [branchId], references: [id])
+  barberId              String
+  barber                Barber                       @relation(fields: [barberId], references: [id])
+  guestName             String?
+  guestPhone            String?
+  startsAt              DateTime
+  endsAt                DateTime
+  bufferMinutesSnapshot Int                          @default(0)
+  status                BookingStatus                @default(PENDING_PAYMENT)
+  holdExpiresAt         DateTime?
+  note                  String?
+  items                 BookingItem[]
+  statusEvents          BookingStatusEvent[]
+  transaction           Transaction?
+  pointEntries          MembershipPointTransaction[]
+  createdAt             DateTime                     @default(now()) @onCreate(now())
+  updatedAt             temporal.UpdatedAt
+
+  @@index([branchId, startsAt])
+  @@index([barberId, startsAt, endsAt])
+  @@index([customerId, createdAt])
+  @@index([status, holdExpiresAt])
+}
+
+model BookingItem {
+  id                      String   @id @onCreate(uuid())
+  bookingId               String
+  booking                 Booking  @relation(fields: [bookingId], references: [id])
+  serviceId               String
+  service                 Service  @relation(fields: [serviceId], references: [id])
+  serviceNameSnapshot     String
+  unitPriceRupiahSnapshot Int
+  durationMinutesSnapshot Int
+  sortOrder               Int      @default(0)
+  createdAt               DateTime @default(now()) @onCreate(now())
+
+  @@index([bookingId, sortOrder])
+  @@index([serviceId])
+}
+
+model BookingStatusEvent {
+  id             String         @id @onCreate(uuid())
+  bookingId      String
+  booking        Booking        @relation(fields: [bookingId], references: [id])
+  fromStatus     BookingStatus?
+  toStatus       BookingStatus
+  actorProfileId String?
+  actor          Profile?       @relation("BookingStatusActor", fields: [actorProfileId], references: [id])
+  note           String?
+  createdAt      DateTime       @default(now()) @onCreate(now())
+
+  @@index([bookingId, createdAt])
+}
+
+model BookingPolicy {
+  id              String             @id @default("default")
+  bufferMinutes   Int                @default(0)
+  softLockMinutes Int                @default(15)
+  updatedAt       temporal.UpdatedAt
+}
+
+model PaymentOption {
+  id            String        @id @onCreate(uuid())
+  method        PaymentMethod
+  label         String
+  bankName      String?
+  accountNumber String?
+  accountHolder String?
+  qrImagePath   String?
+  instructions  String?
+  isActive      Boolean       @default(true)
+  sortOrder     Int           @default(0)
+  payments      Payment[]
+  createdAt     DateTime      @default(now()) @onCreate(now())
+  updatedAt     temporal.UpdatedAt
+
+  @@index([isActive, sortOrder])
+}
+
+model Transaction {
+  id                 String                       @id @onCreate(uuid())
+  bookingId          String?                      @unique
+  booking            Booking?                     @relation(fields: [bookingId], references: [id])
+  customerId         String?
+  customer           Customer?                    @relation(fields: [customerId], references: [id])
+  branchId           String
+  branch             Branch                       @relation(fields: [branchId], references: [id])
+  createdByProfileId String?
+  createdBy          Profile?                     @relation("TransactionCreator", fields: [createdByProfileId], references: [id])
+  status             TransactionStatus            @default(PENDING)
+  totalAmountRupiah  Int
+  note               String?
+  items              TransactionItem[]
+  payments           Payment[]
+  pointEntries       MembershipPointTransaction[]
+  createdAt          DateTime                     @default(now()) @onCreate(now())
+  updatedAt          temporal.UpdatedAt
+
+  @@index([branchId, createdAt])
+  @@index([customerId, createdAt])
+  @@index([status, createdAt])
+}
+
+model TransactionItem {
+  id                      String      @id @onCreate(uuid())
+  transactionId           String
+  transaction             Transaction @relation(fields: [transactionId], references: [id])
+  serviceId               String?
+  service                 Service?    @relation(fields: [serviceId], references: [id])
+  nameSnapshot            String
+  quantity                Int         @default(1)
+  unitPriceRupiahSnapshot Int
+  createdAt               DateTime    @default(now()) @onCreate(now())
+
+  @@index([transactionId])
+  @@index([serviceId])
+}
+
+model Payment {
+  id               String               @id @onCreate(uuid())
+  transactionId    String
+  transaction      Transaction          @relation(fields: [transactionId], references: [id])
+  paymentOptionId  String?
+  paymentOption    PaymentOption?        @relation(fields: [paymentOptionId], references: [id])
+  method           PaymentMethod
+  methodLabelSnapshot String?
+  destinationSnapshot String?
+  status           PaymentStatus         @default(PENDING)
+  amountRupiah     Int
+  proofStoragePath String?
+  proofUploadedAt  DateTime?
+  verifiedAt       DateTime?
+  reference        String?
+  statusEvents     PaymentStatusEvent[]
+  createdAt        DateTime             @default(now()) @onCreate(now())
+  updatedAt        temporal.UpdatedAt
+
+  @@index([transactionId, createdAt])
+  @@index([status, createdAt])
+}
+
+model PaymentStatusEvent {
+  id             String         @id @onCreate(uuid())
+  paymentId      String
+  payment        Payment        @relation(fields: [paymentId], references: [id])
+  fromStatus     PaymentStatus?
+  toStatus       PaymentStatus
+  actorProfileId String?
+  actor          Profile?       @relation("PaymentStatusActor", fields: [actorProfileId], references: [id])
+  note           String?
+  createdAt      DateTime       @default(now()) @onCreate(now())
+
+  @@index([paymentId, createdAt])
+}
+
+model Membership {
+  id                String                       @id @onCreate(uuid())
+  customerId        String                       @unique
+  customer          Customer                     @relation(fields: [customerId], references: [id])
+  status            MembershipStatus             @default(ACTIVE)
+  activatedAt       DateTime                     @default(now()) @onCreate(now())
+  expiresAt         DateTime?
+  pointTransactions MembershipPointTransaction[]
+  createdAt         DateTime                     @default(now()) @onCreate(now())
+  updatedAt         temporal.UpdatedAt
+}
+
+model MembershipPointPolicy {
+  id                        String             @id @default("default")
+  pointsPerCompletedBooking Int                @default(0)
+  updatedByProfileId        String?
+  updatedBy                 Profile?           @relation("MembershipPointPolicyUpdater", fields: [updatedByProfileId], references: [id])
+  updatedAt                 temporal.UpdatedAt
+}
+
+model MembershipPointTransaction {
+  id             String       @id @onCreate(uuid())
+  membershipId   String
+  membership     Membership   @relation(fields: [membershipId], references: [id])
+  bookingId      String?
+  booking        Booking?     @relation(fields: [bookingId], references: [id])
+  transactionId  String?
+  transaction    Transaction? @relation(fields: [transactionId], references: [id])
+  actorProfileId String?
+  actor          Profile?     @relation("MembershipPointActor", fields: [actorProfileId], references: [id])
+  deltaPoints    Int
+  reason         String
+  idempotencyKey String?      @unique
+  expiresAt      DateTime?
+  createdAt      DateTime     @default(now()) @onCreate(now())
+
+  @@index([membershipId, createdAt])
+  @@index([bookingId])
+  @@index([transactionId])
+}
+
+model HaircutModel {
+  id          String             @id @onCreate(uuid())
+  branchId    String?
+  branch      Branch?            @relation(fields: [branchId], references: [id])
+  title       String
+  description String?
+  imagePath   String
+  isPublished Boolean            @default(false)
+  sortOrder   Int                @default(0)
+  createdAt   DateTime           @default(now()) @onCreate(now())
+  updatedAt   temporal.UpdatedAt
+
+  @@index([isPublished, sortOrder])
+}
+
+model CareerVacancy {
+  id           String             @id @onCreate(uuid())
+  title        String
+  description  String
+  isPublished  Boolean            @default(false)
+  publishedAt  DateTime?
+  closesAt     DateTime?
+  applications JobApplication[]
+  createdAt    DateTime           @default(now()) @onCreate(now())
+  updatedAt    temporal.UpdatedAt
+
+  @@index([isPublished, publishedAt])
+}
+
+model JobApplication {
+  id           String                      @id @onCreate(uuid())
+  vacancyId    String
+  vacancy      CareerVacancy               @relation(fields: [vacancyId], references: [id])
+  name         String
+  email        String
+  phone        String
+  message      String?
+  status       JobApplicationStatus        @default(SUBMITTED)
+  documents    ApplicationDocument[]
+  statusEvents JobApplicationStatusEvent[]
+  createdAt    DateTime                    @default(now()) @onCreate(now())
+  updatedAt    temporal.UpdatedAt
+
+  @@index([vacancyId, status])
+  @@index([createdAt])
+}
+
+model JobApplicationStatusEvent {
+  id             String                @id @onCreate(uuid())
+  applicationId  String
+  application    JobApplication        @relation(fields: [applicationId], references: [id])
+  fromStatus     JobApplicationStatus?
+  toStatus       JobApplicationStatus
+  actorProfileId String?
+  actor          Profile?              @relation("JobApplicationStatusActor", fields: [actorProfileId], references: [id])
+  note           String?
+  createdAt      DateTime              @default(now()) @onCreate(now())
+
+  @@index([applicationId, createdAt])
+}
+
+model ApplicationDocument {
+  id               String         @id @onCreate(uuid())
+  applicationId    String
+  application      JobApplication @relation(fields: [applicationId], references: [id])
+  storagePath      String
+  originalFileName String
+  mimeType         String
+  sizeBytes        Int
+  createdAt        DateTime       @default(now()) @onCreate(now())
+
+  @@index([applicationId])
+}
+
+model SiteContent {
+  id          String             @id @onCreate(uuid())
+  key         String             @unique
+  title       String
+  body        String
+  isPublished Boolean            @default(false)
+  createdAt   DateTime           @default(now()) @onCreate(now())
+  updatedAt   temporal.UpdatedAt
+
+  @@index([isPublished])
+}
