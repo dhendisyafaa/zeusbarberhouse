@@ -30,7 +30,7 @@ export function HeroSection({
             <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight text-[#FAFAFA] leading-[0.98]">
               FEEL AT HOME.
               <br />
-              <span className="text-[#0033A0] selection:bg-[#FF2A2A] selection:text-[#FAFAFA]">
+              <span className="text-[#FF2A2A] selection:bg-[#0033A0] selection:text-[#FAFAFA]">
                 LEAVE REFRESHED.
               </span>
             </h1>
