@@ -54,7 +54,7 @@ export function MembershipSection({
           <div className="flex flex-col gap-4 w-full lg:w-80 shrink-0 relative z-10 bg-[#09090B] p-6 border border-[#27272A]">
             <div className="flex items-center justify-between border-b border-[#27272A] pb-3">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#A1A1AA]">
-                DIGITAL GARAGE PASS
+                MEMBERSHIP
               </span>
               <span className="w-2.5 h-2.5 bg-[#0033A0] inline-block" />
             </div>

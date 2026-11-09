@@ -80,12 +80,6 @@ export function HeroSection({
                 priority
               />
             </div>
-
-            <div className="w-full border-t border-[#27272A] pt-4 mt-2 flex flex-col items-center text-center">
-              <span className="font-heading text-lg font-bold uppercase tracking-wider text-[#FAFAFA]">
-                ZEUS ALL HAIR GARAGE
-              </span>
-            </div>
           </div>
         </div>
 
