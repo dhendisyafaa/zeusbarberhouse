@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { AppQueryProvider } from "@/components/app-query-provider";
+import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="dark h-full antialiased">
+    <html lang="id" className="dark h-full antialiased" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -30,8 +31,16 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-full flex flex-col bg-[#09090B] text-[#FAFAFA] font-sans selection:bg-[#0033A0] selection:text-[#FAFAFA]">
-        <AppQueryProvider>{children}</AppQueryProvider>
+      <body className="min-h-full flex flex-col bg-background text-foreground font-sans selection:bg-primary selection:text-primary-foreground">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem={false}
+          disableTransitionOnChange
+          storageKey="zeus-theme"
+        >
+          <AppQueryProvider>{children}</AppQueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -8,14 +8,14 @@ export const metadata: Metadata = {
 
 export default function AdminLoginPage() {
   return (
-    <main className="flex min-h-screen items-center justify-center bg-zinc-950 px-4 text-zinc-50">
-      <section className="w-full max-w-md space-y-6 rounded-lg border border-zinc-800 bg-zinc-900 p-8">
+    <main className="flex min-h-screen items-center justify-center bg-background px-4 text-foreground">
+      <section className="w-full max-w-md space-y-6 rounded-lg border border-border bg-card p-8">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-info">
             Zeus BarberHouse
           </p>
           <h1 className="mt-2 text-2xl font-bold">Masuk dashboard admin</h1>
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="mt-2 text-sm text-muted-foreground">
             Gunakan akun khusus admin yang diberikan oleh developer!
           </p>
         </div>

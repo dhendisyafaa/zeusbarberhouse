@@ -29,16 +29,16 @@ export function ServiceDistributionChart({
   };
 
   return (
-    <div className="bg-[#1A1A1D] border border-[#27272A] p-5 flex flex-col justify-between">
+    <div className="bg-card border border-border p-5 flex flex-col justify-between">
       {/* Header */}
-      <div className="pb-3 border-b border-[#27272A]">
+      <div className="pb-3 border-b border-border">
         <div className="flex items-center gap-2">
-          <span className="w-2.5 h-2.5 bg-[#FF2A2A]" />
-          <span className="text-[11px] uppercase text-[#A1A1AA] tracking-wider font-bold">
+          <span className="w-2.5 h-2.5 bg-destructive" />
+          <span className="text-[11px] uppercase text-muted-foreground tracking-wider font-bold">
             PORSI PENJUALAN
           </span>
         </div>
-        <span className="font-heading text-lg text-[#FAFAFA] uppercase font-bold">
+        <span className="font-heading text-lg text-foreground uppercase font-bold">
           Distribusi Paket Layanan (Minggu Ini)
         </span>
       </div>
@@ -53,7 +53,7 @@ export function ServiceDistributionChart({
               cy="50"
               fill="transparent"
               r="38"
-              stroke="#27272A"
+              stroke="var(--border)"
               strokeWidth="12"
             />
             {segments.map(({ item, length, offset }) => (
@@ -73,10 +73,10 @@ export function ServiceDistributionChart({
 
           {/* Center Metric */}
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-            <span className="font-heading text-2xl font-bold text-[#FAFAFA] leading-none">
+            <span className="font-heading text-2xl font-bold text-foreground leading-none">
               {totalOrders}
             </span>
-            <span className="text-[10px] text-[#A1A1AA] uppercase font-bold tracking-wider mt-1">
+            <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider mt-1">
               TOTAL ORDER
             </span>
           </div>
@@ -84,9 +84,9 @@ export function ServiceDistributionChart({
       </div>
 
       {/* Legend Breakdown List */}
-      <div className="space-y-2 border-t border-[#27272A] pt-3">
+      <div className="space-y-2 border-t border-border pt-3">
         {distribution.length === 0 ? (
-          <p className="text-center text-xs text-[#A1A1AA]">Belum ada data layanan.</p>
+          <p className="text-center text-xs text-muted-foreground">Belum ada data layanan.</p>
         ) : distribution.map((item) => (
           <div key={item.id} className="flex items-center justify-between text-xs">
             <div className="flex items-center gap-2 truncate">
@@ -94,13 +94,13 @@ export function ServiceDistributionChart({
                 className="w-3 h-3 shrink-0"
                 style={{ backgroundColor: item.color }}
               />
-              <span className="text-[#FAFAFA] font-medium truncate">
+              <span className="text-foreground font-medium truncate">
                 {item.name}
               </span>
             </div>
             <div className="flex items-center gap-3 shrink-0">
-              <span className="text-[#A1A1AA] font-mono">{item.percentage}%</span>
-              <span className="text-[#FAFAFA] font-bold">
+              <span className="text-muted-foreground font-mono">{item.percentage}%</span>
+              <span className="text-foreground font-bold">
                 {formatPrice(item.priceRupiah)}
               </span>
             </div>

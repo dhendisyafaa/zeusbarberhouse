@@ -44,13 +44,13 @@ export function CustomerAuthForm({ mode, error = "" }: CustomerAuthFormProps) {
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-zinc-400">
+      <p className="text-sm text-muted-foreground">
         {isRegister
           ? "Setelah login berhasil, akun otomatis menjadi member Zeus."
           : "Gunakan akun Google yang terhubung dengan membership-mu."}
       </p>
       {errorMessage && (
-        <p role="alert" className="text-sm text-red-400">
+        <p role="alert" className="text-sm text-destructive">
           {errorMessage}
         </p>
       )}
@@ -58,18 +58,18 @@ export function CustomerAuthForm({ mode, error = "" }: CustomerAuthFormProps) {
         type="button"
         disabled={isSubmitting}
         onClick={() => void signInWithGoogle()}
-        className="flex w-full items-center justify-center gap-3 border border-zinc-600 bg-white px-4 py-3 font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:cursor-wait disabled:opacity-60"
+        className="flex w-full items-center justify-center gap-3 border border-subtle bg-white px-4 py-3 font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:cursor-wait disabled:opacity-60"
       >
-        <span aria-hidden="true" className="text-lg font-bold text-blue-600">
+        <span aria-hidden="true" className="text-lg font-bold text-primary">
           G
         </span>
         {isSubmitting ? "Mengarahkan ke Google…" : "Lanjutkan dengan Google"}
       </button>
-      <p className="text-sm text-zinc-400">
+      <p className="text-sm text-muted-foreground">
         {isRegister ? "Sudah punya akun?" : "Belum punya akun?"}{" "}
         <Link
           href={isRegister ? "/login" : "/register"}
-          className="text-blue-300 underline"
+          className="text-info underline"
         >
           {isRegister ? "Masuk" : "Daftar sebagai member"}
         </Link>

@@ -19,7 +19,7 @@ type ApplicationResult = {
   createdAt: string;
 };
 
-const fieldClass = 'mt-1 w-full border border-[#27272A] bg-[#09090B] px-3 py-3 text-sm text-[#FAFAFA] outline-none focus:border-[#0033A0]';
+const fieldClass = 'mt-1 w-full border border-border bg-background px-3 py-3 text-sm text-foreground outline-none focus:border-primary';
 
 export function CareerWorkbench() {
   const [selectedVacancy, setSelectedVacancy] = useState<Vacancy | null>(null);
@@ -70,32 +70,32 @@ export function CareerWorkbench() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-      <header className="mb-8 border-b border-[#27272A] pb-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-[#0033A0]">Careers at Zeus</p>
+      <header className="mb-8 border-b border-border pb-6">
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">Careers at Zeus</p>
         <h1 className="mt-2 font-heading text-3xl font-extrabold uppercase sm:text-5xl">
           Lowongan & Karier
         </h1>
-        <p className="mt-3 max-w-2xl text-sm text-[#A1A1AA]">
+        <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
           Lowongan aktif dikelola langsung oleh tim Zeus. Isi pengalaman dan unggah CV/resume PDF untuk mengirim lamaran.
         </p>
       </header>
 
       {notice && (
-        <p role="status" className="mb-5 border border-emerald-700 bg-emerald-950/30 p-4 text-sm text-emerald-200">
+        <p role="status" className="mb-5 border border-success/40 bg-success/10 p-4 text-sm text-success">
           {notice}
         </p>
       )}
       {(formValidationError || applicationMutation.error) && (
-        <p role="alert" className="mb-5 border border-red-800 bg-red-950/40 p-4 text-sm text-red-200">
+        <p role="alert" className="mb-5 border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
           {formValidationError || applicationMutation.error?.message}
         </p>
       )}
       {vacanciesQuery.isPending ? (
-        <p role="status" className="border border-[#27272A] bg-[#1A1A1D] p-5 text-sm text-[#A1A1AA]">
+        <p role="status" className="border border-border bg-card p-5 text-sm text-muted-foreground">
           Memuat lowongan…
         </p>
       ) : vacanciesQuery.isError && !vacanciesQuery.data ? (
-        <div className="border border-red-800 bg-red-950/30 p-5 text-sm text-red-200">
+        <div className="border border-destructive/40 bg-destructive/10 p-5 text-sm text-destructive">
           <p>Lowongan gagal dimuat: {vacanciesQuery.error.message}</p>
           <button type="button" onClick={() => void vacanciesQuery.refetch()} className="mt-3 underline">
             Coba lagi
@@ -104,24 +104,24 @@ export function CareerWorkbench() {
       ) : (
         <>
           {vacanciesQuery.isFetching && (
-            <p role="status" className="mb-3 text-xs text-[#A1A1AA]">Memperbarui lowongan…</p>
+            <p role="status" className="mb-3 text-xs text-muted-foreground">Memperbarui lowongan…</p>
           )}
           {vacanciesQuery.isError && vacanciesQuery.data && (
-            <p role="status" className="mb-3 text-xs text-amber-300">
+            <p role="status" className="mb-3 text-xs text-warning">
               Gagal memperbarui; data terakhir tetap ditampilkan.
             </p>
           )}
           {vacanciesQuery.data?.length ? (
             <div className="grid gap-5 md:grid-cols-2">
               {vacanciesQuery.data.map((vacancy) => (
-                <article key={vacancy.id} className="border border-[#27272A] bg-[#1A1A1D] p-6">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-[#0033A0]">
+                <article key={vacancy.id} className="border border-border bg-card p-6">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-primary">
                     {vacancy.closesAt
                       ? `Ditutup ${new Date(vacancy.closesAt).toLocaleDateString('id-ID')}`
                       : 'Pendaftaran dibuka'}
                   </p>
                   <h2 className="mt-2 font-heading text-2xl font-bold uppercase">{vacancy.title}</h2>
-                  <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-[#A1A1AA]">
+                  <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-muted-foreground">
                     {vacancy.description}
                   </p>
                   <button
@@ -132,7 +132,7 @@ export function CareerWorkbench() {
                               applicationMutation.reset();
                       setSelectedVacancy(vacancy);
                     }}
-                    className="mt-5 border border-[#0033A0] bg-[#0033A0] px-5 py-3 text-xs font-bold uppercase tracking-wider hover:bg-[#FAFAFA] hover:text-[#09090B]"
+                    className="mt-5 border border-primary bg-primary text-primary-foreground px-5 py-3 text-xs font-bold uppercase tracking-wider hover:bg-foreground hover:text-background"
                   >
                     Lamar posisi ini
                   </button>
@@ -140,7 +140,7 @@ export function CareerWorkbench() {
               ))}
             </div>
           ) : (
-            <p className="border border-[#27272A] bg-[#1A1A1D] p-6 text-sm text-[#A1A1AA]">
+            <p className="border border-border bg-card p-6 text-sm text-muted-foreground">
               Belum ada lowongan aktif. Silakan cek lagi nanti.
             </p>
           )}
@@ -151,49 +151,49 @@ export function CareerWorkbench() {
         <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-black/80 p-4">
           <form
             onSubmit={submitApplication}
-            className="my-auto w-full max-w-xl space-y-4 border border-[#0033A0] bg-[#1A1A1D] p-6"
+            className="my-auto w-full max-w-xl space-y-4 border border-primary bg-card p-6"
           >
-            <div className="flex items-start justify-between gap-4 border-b border-[#27272A] pb-4">
+            <div className="flex items-start justify-between gap-4 border-b border-border pb-4">
               <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#0033A0]">Formulir Lamaran</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-primary">Formulir Lamaran</p>
                 <h2 className="mt-1 font-heading text-2xl font-bold uppercase">{selectedVacancy.title}</h2>
               </div>
               <button
                 type="button"
                 onClick={() => setSelectedVacancy(null)}
-                className="px-2 py-1 text-sm text-[#A1A1AA] hover:text-white"
+                className="px-2 py-1 text-sm text-muted-foreground hover:text-foreground"
                 aria-label="Tutup formulir"
               >
                 Tutup
               </button>
             </div>
-            <label className="block text-xs font-semibold uppercase text-[#A1A1AA]">
+            <label className="block text-xs font-semibold uppercase text-muted-foreground">
               Nama lengkap *
               <input name="name" required maxLength={100} autoComplete="name" className={fieldClass} />
             </label>
-            <label className="block text-xs font-semibold uppercase text-[#A1A1AA]">
+            <label className="block text-xs font-semibold uppercase text-muted-foreground">
               Email *
               <input name="email" type="email" required maxLength={254} autoComplete="email" className={fieldClass} />
             </label>
-            <label className="block text-xs font-semibold uppercase text-[#A1A1AA]">
+            <label className="block text-xs font-semibold uppercase text-muted-foreground">
               Nomor telepon *
               <input name="phone" type="tel" required minLength={5} maxLength={20} autoComplete="tel" className={fieldClass} />
             </label>
-            <label className="block text-xs font-semibold uppercase text-[#A1A1AA]">
+            <label className="block text-xs font-semibold uppercase text-muted-foreground">
               Pengalaman *
               <textarea name="experience" rows={4} required maxLength={1000} className={fieldClass} />
             </label>
-            <label className="block text-xs font-semibold uppercase text-[#A1A1AA]">
+            <label className="block text-xs font-semibold uppercase text-muted-foreground">
               CV/resume (PDF, maks. 5 MB) *
               <input name="resume" type="file" accept="application/pdf,.pdf" required className={fieldClass} />
             </label>
-            <p className="text-xs text-[#A1A1AA]">
+            <p className="text-xs text-muted-foreground">
               Resume disimpan privat dan hanya dapat diakses oleh admin yang berwenang.
             </p>
             <button
               type="submit"
               disabled={applicationMutation.isPending}
-              className="w-full bg-[#0033A0] px-5 py-3.5 text-xs font-bold uppercase tracking-wider disabled:opacity-60"
+              className="w-full bg-primary text-primary-foreground px-5 py-3.5 text-xs font-bold uppercase tracking-wider disabled:opacity-60"
             >
               {applicationMutation.isPending ? 'Mengirim lamaran…' : 'Kirim lamaran'}
             </button>

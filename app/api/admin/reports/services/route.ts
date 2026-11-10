@@ -5,7 +5,7 @@ import { validationError } from '@/lib/api/errors';
 import { handleError, ok } from '@/lib/api/response';
 import { db } from '@/src/prisma/db';
 
-const CHART_COLORS = ['#0033A0', '#b6c4ff', '#FF2A2A', '#444653', '#FAFAFA'];
+const CHART_COLORS = ['#0033A0', '#2563EB', '#B91C1C', '#64748B', '#B45309'];
 
 export async function GET(request: NextRequest) {
   try {

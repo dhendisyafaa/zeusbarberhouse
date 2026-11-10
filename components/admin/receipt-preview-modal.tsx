@@ -64,16 +64,16 @@ export function ReceiptPreviewModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-      <div className="relative w-full max-w-3xl bg-[#1A1A1D] border-2 border-[#0033A0] shadow-[8px_8px_0px_0px_#09090B] flex flex-col max-h-[90vh]">
+      <div className="relative w-full max-w-3xl bg-card border-2 border-primary shadow-[8px_8px_0px_0px_var(--shadow)] flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="px-6 py-4 bg-[#09090B] border-b border-[#27272A] flex items-center justify-between">
+        <div className="px-6 py-4 bg-background border-b border-border flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-3 h-3 bg-[#0033A0]" />
+            <span className="w-3 h-3 bg-primary" />
             <div className="flex flex-col">
-              <span className="text-[10px] text-[#A1A1AA] uppercase tracking-wider font-bold">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-bold">
                 AUDIT DOKUMEN PEMBAYARAN MANUAL
               </span>
-              <span className="font-heading text-lg font-bold text-[#FAFAFA] uppercase">
+              <span className="font-heading text-lg font-bold text-foreground uppercase">
                 Verifikasi Bukti Transfer #{booking.id.slice(0, 8).toUpperCase()}
               </span>
             </div>
@@ -82,7 +82,7 @@ export function ReceiptPreviewModal({
             type="button"
             onClick={onClose}
             aria-label="Tutup dialog"
-            className="w-8 h-8 flex items-center justify-center border border-[#27272A] bg-[#1A1A1D] text-[#A1A1AA] hover:text-[#FAFAFA] hover:border-[#FF2A2A] transition-colors"
+            className="w-8 h-8 flex items-center justify-center border border-border bg-card text-muted-foreground hover:text-foreground hover:border-destructive transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -92,36 +92,36 @@ export function ReceiptPreviewModal({
         <div className="p-6 overflow-y-auto grid grid-cols-1 md:grid-cols-12 gap-6">
           {/* Left Column: Booking & Transfer Data */}
           <div className="md:col-span-5 flex flex-col gap-4">
-            <div className="p-4 bg-[#09090B] border border-[#27272A] flex flex-col gap-3">
-              <span className="text-[11px] uppercase text-[#A1A1AA] font-bold tracking-wider border-b border-[#27272A] pb-2">
+            <div className="p-4 bg-background border border-border flex flex-col gap-3">
+              <span className="text-[11px] uppercase text-muted-foreground font-bold tracking-wider border-b border-border pb-2">
                 DETAIL TRANSAKSI
               </span>
 
               <div className="flex items-start gap-2.5">
-                <User className="w-4 h-4 text-[#A1A1AA] shrink-0 mt-0.5" />
+                <User className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-[#A1A1AA] uppercase">Nama Pelanggan</span>
-                  <span className="text-sm font-bold text-[#FAFAFA]">{customerName}</span>
-                  <span className="text-xs text-[#A1A1AA]">{customerPhone}</span>
+                  <span className="text-[10px] text-muted-foreground uppercase">Nama Pelanggan</span>
+                  <span className="text-sm font-bold text-foreground">{customerName}</span>
+                  <span className="text-xs text-muted-foreground">{customerPhone}</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <CreditCard className="w-4 h-4 text-[#0033A0] shrink-0 mt-0.5" />
+                <CreditCard className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-[#A1A1AA] uppercase">Nominal Ditransfer</span>
-                  <span className="text-base font-bold text-[#B6C4FF] font-mono">
+                  <span className="text-[10px] text-muted-foreground uppercase">Nominal Ditransfer</span>
+                  <span className="text-base font-bold text-info font-mono">
                     Rp {formatRupiah(totalAmount)}
                   </span>
-                  <span className="text-[11px] text-[#A1A1AA] font-medium">{paymentMethod}</span>
+                  <span className="text-[11px] text-muted-foreground font-medium">{paymentMethod}</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-[#A1A1AA] shrink-0 mt-0.5" />
+                <Clock className="w-4 h-4 text-muted-foreground shrink-0 mt-0.5" />
                 <div className="flex flex-col">
-                  <span className="text-[10px] text-[#A1A1AA] uppercase">Waktu Pengajuan</span>
-                  <span className="text-xs text-[#FAFAFA] font-mono">
+                  <span className="text-[10px] text-muted-foreground uppercase">Waktu Pengajuan</span>
+                  <span className="text-xs text-foreground font-mono">
                     {new Date(booking.createdAt).toLocaleTimeString("id-ID", {
                       hour: "2-digit",
                       minute: "2-digit",
@@ -133,15 +133,15 @@ export function ReceiptPreviewModal({
             </div>
 
             {/* Services in this booking */}
-            <div className="p-4 bg-[#09090B] border border-[#27272A] flex flex-col gap-2">
-              <span className="text-[11px] uppercase text-[#A1A1AA] font-bold tracking-wider">
+            <div className="p-4 bg-background border border-border flex flex-col gap-2">
+              <span className="text-[11px] uppercase text-muted-foreground font-bold tracking-wider">
                 LAYANAN DIPILIH
               </span>
               <div className="flex flex-col gap-1.5">
                 {booking.items.map((it, idx) => (
                   <div key={idx} className="flex items-center justify-between text-xs">
-                    <span className="text-[#FAFAFA]">{it.serviceNameSnapshot}</span>
-                    <span className="text-[#A1A1AA] font-mono font-bold">
+                    <span className="text-foreground">{it.serviceNameSnapshot}</span>
+                    <span className="text-muted-foreground font-mono font-bold">
                       Rp {formatRupiah(it.unitPriceRupiahSnapshot)}
                     </span>
                   </div>
@@ -152,10 +152,10 @@ export function ReceiptPreviewModal({
 
           {/* Right Column: Receipt Image Preview */}
           <div className="md:col-span-7 flex flex-col">
-            <span className="text-[11px] uppercase text-[#A1A1AA] font-bold tracking-wider mb-2">
+            <span className="text-[11px] uppercase text-muted-foreground font-bold tracking-wider mb-2">
               PRATINJAU BUKTI PEMBAYARAN ASLI
             </span>
-            <div className="w-full h-80 bg-[#09090B] border-2 border-dashed border-[#27272A] p-4 flex flex-col items-center justify-center relative overflow-hidden group">
+            <div className="w-full h-80 bg-background border-2 border-dashed border-border p-4 flex flex-col items-center justify-center relative overflow-hidden group">
               {proofUrl ? (
                 <Image
                   src={proofUrl}
@@ -166,11 +166,11 @@ export function ReceiptPreviewModal({
                 />
               ) : (
                 <div className="flex max-w-sm flex-col items-center gap-2 text-center">
-                  <FileText className="h-8 w-8 text-[#A1A1AA]" />
-                  <span className="text-sm font-semibold text-[#FAFAFA]">
+                  <FileText className="h-8 w-8 text-muted-foreground" />
+                  <span className="text-sm font-semibold text-foreground">
                     {isLoadingProof ? "Memuat bukti pembayaran..." : "Bukti pembayaran tidak tersedia"}
                   </span>
-                  {proofError ? <span role="alert" className="text-xs text-red-300">{proofError}</span> : null}
+                  {proofError ? <span role="alert" className="text-xs text-destructive">{proofError}</span> : null}
                 </div>
               )}
             </div>
@@ -178,9 +178,9 @@ export function ReceiptPreviewModal({
         </div>
 
         {/* Modal Actions */}
-        <div className="px-6 py-4 bg-[#09090B] border-t border-[#27272A] flex flex-wrap items-center justify-between gap-3">
-          <span className="text-xs text-[#A1A1AA] font-medium">
-            Memverifikasi akan memperbarui status booking menjadi <b className="text-[#FAFAFA]">CONFIRMED</b> dan membuka transaksi sebagai <b className="text-[#FAFAFA]">PAID</b>.
+        <div className="px-6 py-4 bg-background border-t border-border flex flex-wrap items-center justify-between gap-3">
+          <span className="text-xs text-muted-foreground font-medium">
+            Memverifikasi akan memperbarui status booking menjadi <b className="text-foreground">CONFIRMED</b> dan membuka transaksi sebagai <b className="text-foreground">PAID</b>.
           </span>
           <div className="flex items-center gap-2">
             <button
@@ -192,7 +192,7 @@ export function ReceiptPreviewModal({
                 if (succeeded) onClose();
               }}
               disabled={isSubmitting}
-              className="px-4 py-2 bg-[#09090B] hover:bg-[#FF2A2A] text-[#FF2A2A] hover:text-[#FAFAFA] text-xs font-bold uppercase tracking-wider transition-all border border-[#FF2A2A] flex items-center gap-1.5"
+              className="px-4 py-2 bg-background hover:bg-destructive text-destructive hover:text-destructive-foreground text-xs font-bold uppercase tracking-wider transition-all border border-destructive flex items-center gap-1.5"
             >
               <XCircle className="w-4 h-4" />
               TOLAK BUKTI
@@ -206,7 +206,7 @@ export function ReceiptPreviewModal({
                 if (succeeded) onClose();
               }}
               disabled={isSubmitting || !proofUrl || isLoadingProof}
-              className="px-5 py-2 bg-[#0033A0] hover:bg-[#00277F] text-[#FAFAFA] text-xs font-bold uppercase tracking-wider transition-all border border-[#0033A0] flex items-center gap-1.5 hover:shadow-[3px_3px_0px_0px_#FAFAFA]"
+              className="px-5 py-2 bg-primary hover:bg-primary-hover text-primary-foreground text-xs font-bold uppercase tracking-wider transition-all border border-primary flex items-center gap-1.5 hover:shadow-[3px_3px_0px_0px_var(--foreground)]"
             >
               <CheckCircle className="w-4 h-4" />
               SETUJUI PEMBAYARAN

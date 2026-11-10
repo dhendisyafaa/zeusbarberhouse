@@ -15,7 +15,7 @@ export default async function Home() {
   const data = await getHomePageData();
 
   return (
-    <div className="min-h-screen bg-[#09090B] text-[#FAFAFA] flex flex-col font-sans">
+    <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
       <Navbar />
       <main className="flex-1 w-full flex flex-col">
         <HeroSection

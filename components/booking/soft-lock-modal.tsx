@@ -167,17 +167,17 @@ export function SoftLockModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-[#09090B]/90 p-4 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-background/90 p-4 backdrop-blur-md">
       <section
         role="dialog"
         aria-modal="true"
         aria-labelledby="booking-payment-title"
-        className="my-auto flex w-full max-w-xl flex-col gap-5 border-2 border-[#0033A0] bg-[#1A1A1D] p-6 shadow-[6px_6px_0px_0px_#0033A0] sm:p-8"
+        className="my-auto flex w-full max-w-xl flex-col gap-5 border-2 border-primary bg-card p-6 shadow-[6px_6px_0px_0px_var(--primary)] sm:p-8"
       >
-        <header className="flex items-center justify-between border-b border-[#27272A] pb-3">
+        <header className="flex items-center justify-between border-b border-border pb-3">
           <div className="flex items-center gap-2">
             <span
-              className={`h-3 w-3 ${uploaded ? "bg-emerald-500" : expired ? "bg-[#52525B]" : "animate-pulse bg-[#FF2A2A]"}`}
+              className={`h-3 w-3 ${uploaded ? "bg-success" : expired ? "bg-subtle" : "animate-pulse bg-destructive"}`}
             />
             <h2
               id="booking-payment-title"
@@ -194,7 +194,7 @@ export function SoftLockModal({
             type="button"
             onClick={onClose}
             aria-label="Tutup"
-            className="text-[#A1A1AA] hover:text-white"
+            className="text-muted-foreground hover:text-foreground"
           >
             <X className="h-5 w-5" />
           </button>
@@ -202,85 +202,85 @@ export function SoftLockModal({
 
         {uploaded ? (
           <div className="space-y-4 py-4 text-center">
-            <CheckCircle2 className="mx-auto h-12 w-12 text-emerald-400" />
+            <CheckCircle2 className="mx-auto h-12 w-12 text-success" />
             <h3 className="font-heading text-2xl font-bold uppercase">
               Bukti berhasil dikirim
             </h3>
-            <p className="text-sm leading-relaxed text-[#A1A1AA]">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               Booking kamu menunggu verifikasi admin. Simpan kode tiket untuk
               referensi.
             </p>
-            <p className="border border-[#27272A] bg-[#09090B] p-3 font-mono text-sm">
+            <p className="border border-border bg-background p-3 font-mono text-sm">
               {ticketCode}
             </p>
             <button
               type="button"
               onClick={onClose}
-              className="w-full bg-[#0033A0] px-4 py-3 text-xs font-bold uppercase"
+              className="w-full bg-primary text-primary-foreground px-4 py-3 text-xs font-bold uppercase"
             >
               Selesai
             </button>
           </div>
         ) : expired ? (
           <div className="space-y-4 py-4 text-center">
-            <AlertTriangle className="mx-auto h-12 w-12 text-[#FF2A2A]" />
+            <AlertTriangle className="mx-auto h-12 w-12 text-destructive" />
             <h3 className="font-heading text-2xl font-bold uppercase">
               Slot tidak lagi terkunci
             </h3>
-            <p className="text-sm text-[#A1A1AA]">
+            <p className="text-sm text-muted-foreground">
               Waktu pembayaran booking sudah berakhir. Silakan buat booking
               baru.
             </p>
             <button
               type="button"
               onClick={onClose}
-              className="w-full bg-[#0033A0] px-4 py-3 text-xs font-bold uppercase"
+              className="w-full bg-primary text-primary-foreground px-4 py-3 text-xs font-bold uppercase"
             >
               Kembali
             </button>
           </div>
         ) : (
           <>
-            <div className="flex items-center justify-between border border-[#27272A] bg-[#09090B] p-4">
+            <div className="flex items-center justify-between border border-border bg-background p-4">
               <div>
-                <span className="block text-[11px] font-bold uppercase text-[#A1A1AA]">
+                <span className="block text-[11px] font-bold uppercase text-muted-foreground">
                   Sisa waktu pembayaran
                 </span>
-                <span className="font-heading font-mono text-3xl font-bold text-[#FF2A2A]">
+                <span className="font-heading font-mono text-3xl font-bold text-destructive">
                   {String(minutes).padStart(2, "0")}:
                   {String(seconds).padStart(2, "0")}
                 </span>
               </div>
-              <Clock3 className="h-6 w-6 text-[#0033A0]" />
+              <Clock3 className="h-6 w-6 text-primary" />
             </div>
-            <div className="space-y-2 border border-[#27272A] bg-[#09090B] p-4 text-sm">
+            <div className="space-y-2 border border-border bg-background p-4 text-sm">
               <p>
-                <span className="text-[#A1A1AA]">Cabang:</span> {branchName}
+                <span className="text-muted-foreground">Cabang:</span> {branchName}
               </p>
               <p>
-                <span className="text-[#A1A1AA]">Jadwal:</span> {datetimeLabel}
+                <span className="text-muted-foreground">Jadwal:</span> {datetimeLabel}
               </p>
               <p>
-                <span className="text-[#A1A1AA]">Total:</span> Rp{" "}
+                <span className="text-muted-foreground">Total:</span> Rp{" "}
                 {totalPrice.toLocaleString("id-ID")}
               </p>
               <p>
-                <span className="text-[#A1A1AA]">Kode booking:</span>{" "}
+                <span className="text-muted-foreground">Kode booking:</span>{" "}
                 {ticketCode}
               </p>
             </div>
             <section className="space-y-3">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-[#A1A1AA]">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
                 Pilih metode pembayaran
               </h3>
               {paymentOptionsQuery.isPending ? (
-                <p className="text-sm text-[#A1A1AA]">
+                <p className="text-sm text-muted-foreground">
                   Memuat metode pembayaran…
                 </p>
               ) : paymentOptionsQuery.isError ? (
                 <p
                   role="alert"
-                  className="border border-red-800 bg-red-950/30 p-3 text-sm text-red-200"
+                  className="border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"
                 >
                   Metode pembayaran gagal dimuat:{" "}
                   {paymentOptionsQuery.error.message}
@@ -288,7 +288,7 @@ export function SoftLockModal({
               ) : paymentOptions.length === 0 ? (
                 <p
                   role="alert"
-                  className="border border-red-800 bg-red-950/30 p-3 text-sm text-red-200"
+                  className="border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"
                 >
                   Belum ada metode pembayaran aktif. Silakan hubungi admin
                   sebelum melanjutkan.
@@ -300,8 +300,8 @@ export function SoftLockModal({
                       key={option.id}
                       className={`block cursor-pointer border p-3 ${
                         paymentOptionId === option.id
-                          ? "border-[#0033A0] bg-[#0033A0]/15"
-                          : "border-[#27272A] bg-[#09090B]"
+                          ? "border-primary bg-primary/15"
+                          : "border-border bg-background"
                       }`}
                     >
                       <span className="flex items-center gap-2 text-sm font-semibold">
@@ -327,7 +327,7 @@ export function SoftLockModal({
                               <span className="block font-mono text-lg">
                                 {option.accountNumber}
                               </span>
-                              <span className="block text-[#A1A1AA]">
+                              <span className="block text-muted-foreground">
                                 a.n. {option.accountHolder}
                               </span>
                             </>
@@ -341,13 +341,13 @@ export function SoftLockModal({
                               className="mx-auto h-56 w-56 bg-white object-contain p-2"
                             />
                           ) : (
-                            <span role="alert" className="block text-red-300">
+                            <span role="alert" className="block text-destructive">
                               Gambar QRIS tidak tersedia. Pilih metode lain atau
                               hubungi admin.
                             </span>
                           )}
                           {option.instructions && (
-                            <span className="block whitespace-pre-wrap text-xs text-[#A1A1AA]">
+                            <span className="block whitespace-pre-wrap text-xs text-muted-foreground">
                               {option.instructions}
                             </span>
                           )}
@@ -358,7 +358,7 @@ export function SoftLockModal({
                 </div>
               )}
             </section>
-            <label className="block text-xs font-bold uppercase tracking-wider text-[#A1A1AA]">
+            <label className="block text-xs font-bold uppercase tracking-wider text-muted-foreground">
               Bukti pembayaran (JPEG, PNG, WebP · maks. 5 MB)
               <input
                 type="file"
@@ -366,10 +366,10 @@ export function SoftLockModal({
                 onChange={(event) =>
                   chooseFile(event.target.files?.[0] ?? null)
                 }
-                className="mt-2 w-full border border-[#27272A] bg-[#09090B] px-3 py-3 text-sm text-[#FAFAFA]"
+                className="mt-2 w-full border border-border bg-background px-3 py-3 text-sm text-foreground"
               />
               {file && (
-                <span className="mt-2 block normal-case text-[#FAFAFA]">
+                <span className="mt-2 block normal-case text-foreground">
                   {file.name}
                 </span>
               )}
@@ -377,7 +377,7 @@ export function SoftLockModal({
             {(validationError || uploadError) && (
               <p
                 role="alert"
-                className="border border-red-800 bg-red-950/30 p-3 text-sm text-red-200"
+                className="border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive"
               >
                 {validationError || uploadError?.message}
               </p>
@@ -396,7 +396,7 @@ export function SoftLockModal({
               disabled={
                 !file || !selectedOption || paymentMutation.isPending || expired
               }
-              className="flex w-full items-center justify-center gap-2 bg-[#0033A0] px-4 py-4 text-xs font-bold uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex w-full items-center justify-center gap-2 bg-primary text-primary-foreground px-4 py-4 text-xs font-bold uppercase tracking-wider disabled:cursor-not-allowed disabled:opacity-50"
             >
               <Upload className="h-4 w-4" />
               {paymentMutation.isPending

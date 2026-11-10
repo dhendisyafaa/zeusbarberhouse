@@ -340,31 +340,31 @@ export function BookingFormWorkbench() {
 
   return (
     <div className="flex w-full flex-col">
-      <section className="w-full border-b border-[#27272A] bg-[#1A1A1D]">
+      <section className="w-full border-b border-border bg-card">
         <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 px-4 py-8 sm:px-6 md:flex-row md:items-end lg:px-8">
           <div className="flex max-w-3xl flex-col gap-2">
-            <h1 className="font-heading text-3xl font-extrabold uppercase leading-none tracking-tight text-[#FAFAFA] sm:text-5xl">
+            <h1 className="font-heading text-3xl font-extrabold uppercase leading-none tracking-tight text-foreground sm:text-5xl">
               Booking kursi & jadwal
             </h1>
-            <p className="text-sm leading-relaxed text-[#A1A1AA]">
+            <p className="text-sm leading-relaxed text-muted-foreground">
               Slot diperiksa berdasarkan jadwal cabang, jadwal capster, waktu
               istirahat, cuti, dan booking yang masih aktif.
             </p>
           </div>
-          <div className="border border-[#27272A] bg-[#09090B] p-4 text-xs">
-            <span className="block text-[#A1A1AA]">Batas pembayaran</span>
+          <div className="border border-border bg-background p-4 text-xs">
+            <span className="block text-muted-foreground">Batas pembayaran</span>
             <span className="font-heading text-lg font-bold">15 MENIT</span>
           </div>
         </div>
         <BookingStepper currentStep={4} />
       </section>
-      <div className="h-[6px] w-full border-b border-[#27272A] bg-[repeating-linear-gradient(45deg,#09090B,#09090B_10px,#0033A0_10px,#0033A0_20px)]" />
+      <div className="h-[6px] w-full border-b border-border stripe-blue" />
 
       <div className="mx-auto w-full max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         {(loadError || createBookingMutation.error) && (
           <div
             role="alert"
-            className="mb-6 flex items-start gap-2 border border-red-800 bg-red-950/30 p-4 text-sm text-red-200"
+            className="mb-6 flex items-start gap-2 border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive"
           >
             <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
             <span>
@@ -375,18 +375,18 @@ export function BookingFormWorkbench() {
           </div>
         )}
         {branchesQuery.isFetching && !branchesQuery.isPending && (
-          <p role="status" className="mb-4 text-xs text-[#A1A1AA]">
+          <p role="status" className="mb-4 text-xs text-muted-foreground">
             Memperbarui daftar cabang…
           </p>
         )}
         <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
           <div className="flex flex-col gap-10 lg:col-span-8">
             {branchesQuery.isPending ? (
-              <p role="status" className="text-sm text-[#A1A1AA]">
+              <p role="status" className="text-sm text-muted-foreground">
                 Memuat cabang…
               </p>
             ) : branches.length === 0 ? (
-              <p className="text-sm text-[#A1A1AA]">Belum ada cabang aktif.</p>
+              <p className="text-sm text-muted-foreground">Belum ada cabang aktif.</p>
             ) : (
               <StepBranch
                 branches={branchOptions}
@@ -400,7 +400,7 @@ export function BookingFormWorkbench() {
             )}
 
             {barbersQuery.isPending && activeBranch ? (
-              <p role="status" className="text-sm text-[#A1A1AA]">
+              <p role="status" className="text-sm text-muted-foreground">
                 Memuat capster…
               </p>
             ) : (
@@ -415,7 +415,7 @@ export function BookingFormWorkbench() {
             )}
 
             {servicesQuery.isPending ? (
-              <p role="status" className="text-sm text-[#A1A1AA]">
+              <p role="status" className="text-sm text-muted-foreground">
                 Memuat layanan…
               </p>
             ) : (
@@ -488,7 +488,7 @@ export function BookingFormWorkbench() {
       {createBookingMutation.isPending && (
         <p
           role="status"
-          className="fixed bottom-4 right-4 z-40 border border-[#27272A] bg-[#1A1A1D] px-4 py-3 text-sm"
+          className="fixed bottom-4 right-4 z-40 border border-border bg-card px-4 py-3 text-sm"
         >
           Mengunci jadwal…
         </p>

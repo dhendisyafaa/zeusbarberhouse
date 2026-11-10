@@ -275,7 +275,7 @@ function getValue(row: RecordData, path: string): unknown {
 
 function displayValue(value: unknown): string {
   if (typeof value === "boolean") return value ? "Active" : "Inactive";
-  if (value === null || value === undefined || value === "") return "—";
+  if (value === null || value === undefined || value === "") return "â€”";
   if (typeof value === "number") return value.toLocaleString("id-ID");
   if (typeof value === "string" && /^\d{4}-\d\d-\d\dT/.test(value)) {
     return new Date(value).toLocaleString("id-ID");
@@ -295,14 +295,14 @@ function PageShell({
   children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-[#09090B] text-[#FAFAFA] font-sans antialiased">
+    <div className="min-h-screen bg-background text-foreground font-sans antialiased">
       <AdminSidebar activeTab={resource} />
       <div className="min-w-0 pl-0 lg:pl-72">
-        <header className="sticky top-0 z-30 flex min-h-16 items-center justify-between border-b border-[#27272A] bg-[#1A1A1D]/95 pl-14 pr-4 backdrop-blur-md sm:px-6 sm:pl-16 lg:pl-6">
-          <div className="text-xs uppercase tracking-widest text-[#A1A1AA]">
-            Admin <span className="mx-2 text-[#52525B]">/</span> {title}
+        <header className="sticky top-0 z-30 flex min-h-16 items-center justify-between border-b border-border bg-card/95 pl-14 pr-4 backdrop-blur-md sm:px-6 sm:pl-16 lg:pl-6">
+          <div className="text-xs uppercase tracking-widest text-muted-foreground">
+            Admin <span className="mx-2 text-subtle">/</span> {title}
           </div>
-          <span className="border border-[#27272A] bg-[#09090B] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#A1A1AA]">
+          <span className="border border-border bg-background px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
             Resource Console
           </span>
         </header>
@@ -311,7 +311,7 @@ function PageShell({
             <h1 className="font-heading text-3xl font-bold uppercase tracking-wide">
               {title}
             </h1>
-            <p className="mt-2 max-w-3xl text-sm text-[#A1A1AA]">
+            <p className="mt-2 max-w-3xl text-sm text-muted-foreground">
               {description}
             </p>
           </div>
@@ -332,7 +332,7 @@ function Alert({
   return (
     <div
       role={kind === "error" ? "alert" : "status"}
-      className={`border px-4 py-3 text-sm ${kind === "error" ? "border-[#FF2A2A]/50 bg-[#FF2A2A]/10 text-[#FFB4B4]" : "border-emerald-500/40 bg-emerald-500/10 text-emerald-300"}`}
+      className={`border px-4 py-3 text-sm ${kind === "error" ? "border-destructive/50 bg-destructive/10 text-destructive-soft" : "border-success/40 bg-success/10 text-success"}`}
     >
       {children}
     </div>
@@ -341,9 +341,9 @@ function Alert({
 
 function Card({ children, title }: { children: ReactNode; title?: string }) {
   return (
-    <section className="overflow-hidden border border-[#27272A] bg-[#1A1A1D]">
+    <section className="overflow-hidden border border-border bg-card">
       {title && (
-        <h2 className="border-b border-[#27272A] px-5 py-4 text-sm font-bold uppercase tracking-wider">
+        <h2 className="border-b border-border px-5 py-4 text-sm font-bold uppercase tracking-wider">
           {title}
         </h2>
       )}
@@ -355,16 +355,16 @@ function Card({ children, title }: { children: ReactNode; title?: string }) {
 function LoadingState() {
   return (
     <div
-      className="border border-[#27272A] bg-[#1A1A1D] px-5 py-8 text-sm text-[#A1A1AA]"
+      className="border border-border bg-card px-5 py-8 text-sm text-muted-foreground"
       role="status"
     >
-      Loading data…
+      Loading dataâ€¦
     </div>
   );
 }
 
 function EmptyState({ children = "No records found." }: { children?: string }) {
-  return <div className="px-5 py-8 text-sm text-[#A1A1AA]">{children}</div>;
+  return <div className="px-5 py-8 text-sm text-muted-foreground">{children}</div>;
 }
 
 function ResourcePage({ resource }: { resource: keyof typeof configs }) {
@@ -532,19 +532,19 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
     >
       {(error || loadError) && <Alert>{error || loadError}</Alert>}
       {rowsQuery.isFetching && !rowsQuery.isPending && (
-        <p role="status" className="text-xs text-[#A1A1AA]">
-          Refreshing records… Showing cached data.
+        <p role="status" className="text-xs text-muted-foreground">
+          Refreshing recordsâ€¦ Showing cached data.
         </p>
       )}
       {rowsQuery.isError && rowsQuery.data && (
-        <p role="status" className="text-xs text-amber-300">
+        <p role="status" className="text-xs text-warning">
           Refresh failed; showing the last loaded records.
         </p>
       )}
       {notice && <Alert kind="success">{notice}</Alert>}
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.65fr)_minmax(320px,0.8fr)]">
         <Card title="Records">
-          <div className="flex flex-col gap-3 border-b border-[#27272A] px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-5">
+          <div className="flex flex-col gap-3 border-b border-border px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:px-5">
             <div className="flex flex-wrap gap-2">
               {config.filters?.map((filter) => (
                 <label
@@ -567,7 +567,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                         [filter.param]: event.target.value,
                       }));
                     }}
-                    className="border border-[#27272A] bg-[#09090B] px-3 py-2 text-xs text-[#FAFAFA]"
+                    className="border border-border bg-background px-3 py-2 text-xs text-foreground"
                   >
                     {filter.options.map((option) => (
                       <option key={option.value} value={option.value}>
@@ -577,20 +577,20 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                   </select>
                 ))
               ) : (
-                <span className="text-xs text-[#A1A1AA]">
+                <span className="text-xs text-muted-foreground">
                   {rows.length} loaded
                 </span>
               )}
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              <span className="text-xs text-[#A1A1AA]">
-                Page {page} · {rows.length} loaded
+              <span className="text-xs text-muted-foreground">
+                Page {page} Â· {rows.length} loaded
               </span>
               <button
                 type="button"
                 disabled={page === 1 || rowsQuery.isFetching}
                 onClick={() => setPage((current) => current - 1)}
-                className="border border-[#52525B] px-3 py-2 text-xs disabled:opacity-50"
+                className="border border-subtle px-3 py-2 text-xs disabled:opacity-50"
               >
                 Previous
               </button>
@@ -598,14 +598,14 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                 type="button"
                 disabled={rows.length < 100 || rowsQuery.isFetching}
                 onClick={() => setPage((current) => current + 1)}
-                className="border border-[#52525B] px-3 py-2 text-xs disabled:opacity-50"
+                className="border border-subtle px-3 py-2 text-xs disabled:opacity-50"
               >
                 Next
               </button>
               <button
                 type="button"
                 onClick={() => startCreate()}
-                className="bg-[#0033A0] px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-[#00277F]"
+                className="bg-primary text-primary-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-primary-hover"
               >
                 New record
               </button>
@@ -620,7 +620,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[640px] text-left text-sm">
-                <thead className="bg-[#09090B] text-[10px] uppercase tracking-wider text-[#A1A1AA]">
+                <thead className="bg-background text-[10px] uppercase tracking-wider text-muted-foreground">
                   <tr>
                     {config.columns.map((column) => (
                       <th key={column.key} className="px-4 py-3 font-semibold">
@@ -630,18 +630,18 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                     <th className="px-4 py-3">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#27272A]">
+                <tbody className="divide-y divide-border">
                   {rows.map((row) => (
                     <tr
                       key={String(row.id)}
-                      className="align-top hover:bg-[#202023]"
+                      className="align-top hover:bg-hover"
                     >
                       {config.columns.map((column) => {
                         const value = getValue(row, column.key);
                         return (
                           <td
                             key={column.key}
-                            className="max-w-56 px-4 py-3 text-[#D4D4D8]"
+                            className="max-w-56 px-4 py-3 text-foreground"
                           >
                             {column.key === "imageUrl" ||
                             column.key === "photoUrl" ? (
@@ -655,10 +655,10 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                                   className="h-16 w-24 object-cover"
                                 />
                               ) : (
-                                <span className="text-xs text-amber-300">
+                                <span className="text-xs text-warning">
                                   {column.key === "photoUrl"
                                     ? "Foto belum diunggah."
-                                    : "Image missing — upload a replacement."}
+                                    : "Image missing â€” upload a replacement."}
                                 </span>
                               )
                             ) : (
@@ -673,14 +673,14 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                         <button
                           type="button"
                           onClick={() => startEdit(row)}
-                          className="mr-3 text-xs font-semibold text-blue-300 hover:text-white"
+                          className="mr-3 text-xs font-semibold text-info hover:text-foreground"
                         >
                           Edit
                         </button>
                         <button
                           type="button"
                           onClick={() => void archive(row)}
-                          className="text-xs font-semibold text-red-300 hover:text-white"
+                          className="text-xs font-semibold text-destructive hover:text-foreground"
                         >
                           {config.archiveLabel || "Archive"}
                         </button>
@@ -700,7 +700,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                 return (
                   <label
                     key={item.name}
-                    className="flex items-center gap-3 text-sm text-[#D4D4D8]"
+                    className="flex items-center gap-3 text-sm text-foreground"
                   >
                     <input
                       type="checkbox"
@@ -711,7 +711,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                           [item.name]: event.target.checked,
                         }))
                       }
-                      className="h-4 w-4 accent-[#0033A0]"
+                      className="h-4 w-4 accent-primary"
                     />
                     {item.label}
                   </label>
@@ -725,15 +725,15 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                     }))
                   : item.options || [];
               const controlClass =
-                "mt-1 w-full border border-[#27272A] bg-[#09090B] px-3 py-2.5 text-sm text-[#FAFAFA] outline-none focus:border-[#0033A0]";
+                "mt-1 w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground outline-none focus:border-primary";
               const fileValue = value instanceof File ? value : null;
               return (
                 <label
                   key={item.name}
-                  className="block text-xs font-semibold uppercase tracking-wide text-[#A1A1AA]"
+                  className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground"
                 >
                   {item.label}
-                  {item.required && <span className="text-[#FF2A2A]"> *</span>}
+                  {item.required && <span className="text-destructive"> *</span>}
                   {item.type === "textarea" ? (
                     <textarea
                       required={item.required}
@@ -784,11 +784,11 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                         }
                         className={controlClass}
                       />
-                      <span className="mt-1 block normal-case text-[#A1A1AA]">
+                      <span className="mt-1 block normal-case text-muted-foreground">
                         {fileValue?.name ??
                           (editing
                             ? "Pilih file untuk mengganti gambar."
-                            : "JPEG, PNG, atau WebP · Maksimal 5 MB")}
+                            : "JPEG, PNG, atau WebP Â· Maksimal 5 MB")}
                       </span>
                     </>
                   ) : (
@@ -808,7 +808,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                   )}
                   {item.optionSource === "branches" &&
                     branches.length === 0 && (
-                      <span className="mt-1 block normal-case text-[#FFB4B4]">
+                      <span className="mt-1 block normal-case text-destructive-soft">
                         No branches loaded. Create a branch first or check the
                         API response.
                       </span>
@@ -820,15 +820,15 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
               <button
                 type="submit"
                 disabled={isSaving}
-                className="bg-[#0033A0] px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-[#00277F] disabled:opacity-50"
+                className="bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-primary-hover disabled:opacity-50"
               >
-                {isSaving ? "Saving…" : editing ? "Save changes" : "Create"}
+                {isSaving ? "Savingâ€¦" : editing ? "Save changes" : "Create"}
               </button>
               {editing && (
                 <button
                   type="button"
                   onClick={() => startCreate()}
-                  className="border border-[#52525B] px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-[#D4D4D8] hover:bg-[#27272A]"
+                  className="border border-subtle px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground hover:bg-muted"
                 >
                   Cancel
                 </button>
@@ -954,18 +954,18 @@ function BookingsPage() {
         </Alert>
       )}
       {bookingsQuery.isFetching && !bookingsQuery.isPending && (
-        <p role="status" className="text-xs text-[#A1A1AA]">
-          Refreshing bookings… Showing cached data.
+        <p role="status" className="text-xs text-muted-foreground">
+          Refreshing bookingsâ€¦ Showing cached data.
         </p>
       )}
       {bookingsQuery.isError && bookingsQuery.data && (
-        <p role="status" className="text-xs text-amber-300">
+        <p role="status" className="text-xs text-warning">
           Refresh failed; showing the last loaded bookings.
         </p>
       )}
       {notice && <Alert kind="success">{notice}</Alert>}
       <Card title="Booking queue">
-        <div className="flex flex-wrap gap-3 border-b border-[#27272A] px-5 py-3">
+        <div className="flex flex-wrap gap-3 border-b border-border px-5 py-3">
           <label className="sr-only" htmlFor="booking-branch">
             Filter by branch
           </label>
@@ -976,7 +976,7 @@ function BookingsPage() {
               setPage(1);
               setBranchId(event.target.value);
             }}
-            className="border border-[#27272A] bg-[#09090B] px-3 py-2 text-xs text-[#FAFAFA]"
+            className="border border-border bg-background px-3 py-2 text-xs text-foreground"
           >
             <option value="">All branches</option>
             {branches.map((branch) => (
@@ -995,7 +995,7 @@ function BookingsPage() {
               setPage(1);
               setStatus(event.target.value);
             }}
-            className="border border-[#27272A] bg-[#09090B] px-3 py-2 text-xs text-[#FAFAFA]"
+            className="border border-border bg-background px-3 py-2 text-xs text-foreground"
           >
             <option value="">All statuses</option>
             {bookingStatuses.map((value) => (
@@ -1005,14 +1005,14 @@ function BookingsPage() {
             ))}
           </select>
           <div className="flex items-center gap-2 self-center">
-            <span className="text-xs text-[#A1A1AA]">
-              Page {page} · {rows.length} loaded
+            <span className="text-xs text-muted-foreground">
+              Page {page} Â· {rows.length} loaded
             </span>
             <button
               type="button"
               disabled={page === 1 || bookingsQuery.isFetching}
               onClick={() => setPage((current) => current - 1)}
-              className="border border-[#52525B] px-3 py-2 text-xs disabled:opacity-50"
+              className="border border-subtle px-3 py-2 text-xs disabled:opacity-50"
             >
               Previous
             </button>
@@ -1020,7 +1020,7 @@ function BookingsPage() {
               type="button"
               disabled={rows.length < 100 || bookingsQuery.isFetching}
               onClick={() => setPage((current) => current + 1)}
-              className="border border-[#52525B] px-3 py-2 text-xs disabled:opacity-50"
+              className="border border-subtle px-3 py-2 text-xs disabled:opacity-50"
             >
               Next
             </button>
@@ -1053,36 +1053,36 @@ function BookingsPage() {
               return (
                 <article
                   key={id}
-                  className="border border-[#27272A] bg-[#09090B] p-4"
+                  className="border border-border bg-background p-4"
                 >
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <div className="font-semibold">
                         {String(customer?.name || row.guestName || "Guest")}{" "}
-                        <span className="text-[#A1A1AA]">
-                          ·{" "}
+                        <span className="text-muted-foreground">
+                          Â·{" "}
                           {String(
                             customer?.phone || row.guestPhone || "No phone",
                           )}
                         </span>
                       </div>
-                      <div className="mt-1 text-xs text-[#A1A1AA]">
-                        {displayValue(row.startsAt || row.createdAt)} ·{" "}
-                        {String(branch?.name || "Branch unavailable")} ·{" "}
+                      <div className="mt-1 text-xs text-muted-foreground">
+                        {displayValue(row.startsAt || row.createdAt)} Â·{" "}
+                        {String(branch?.name || "Branch unavailable")} Â·{" "}
                         {String(barber?.name || "No barber")}
                       </div>
-                      <div className="mt-2 text-sm text-[#D4D4D8]">
+                      <div className="mt-2 text-sm text-foreground">
                         {services || "No service details"}
                       </div>
                     </div>
-                    <span className="border border-[#52525B] px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
+                    <span className="border border-subtle px-2 py-1 text-[10px] font-bold uppercase tracking-wider">
                       {String(row.status || "UNKNOWN").replaceAll("_", " ")}
                     </span>
                   </div>
                   <div className="mt-4 grid gap-2 sm:grid-cols-[minmax(160px,0.7fr)_minmax(220px,1fr)_auto]">
                     {allowedStatuses.length ? (
                       <>
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-[#A1A1AA]">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                           Set status
                           <select
                             value={bookingUpdate.status}
@@ -1095,7 +1095,7 @@ function BookingsPage() {
                                 },
                               }))
                             }
-                            className="mt-1 w-full border border-[#27272A] bg-[#1A1A1D] px-3 py-2 text-xs text-[#FAFAFA]"
+                            className="mt-1 w-full border border-border bg-card px-3 py-2 text-xs text-foreground"
                           >
                             {allowedStatuses.map((value) => (
                               <option key={value} value={value}>
@@ -1104,7 +1104,7 @@ function BookingsPage() {
                             ))}
                           </select>
                         </label>
-                        <label className="text-[10px] font-bold uppercase tracking-wider text-[#A1A1AA]">
+                        <label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                           Note (optional)
                           <input
                             value={bookingUpdate.note}
@@ -1118,23 +1118,23 @@ function BookingsPage() {
                               }))
                             }
                             maxLength={500}
-                            className="mt-1 w-full border border-[#27272A] bg-[#1A1A1D] px-3 py-2 text-xs text-[#FAFAFA]"
+                            className="mt-1 w-full border border-border bg-card px-3 py-2 text-xs text-foreground"
                           />
                         </label>
                         <button
                           type="button"
                           disabled={bookingMutation.isPending}
                           onClick={() => void updateBooking(id)}
-                          className="self-end bg-[#0033A0] px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-[#00277F] disabled:opacity-50"
+                          className="self-end bg-primary text-primary-foreground px-4 py-2 text-xs font-bold uppercase tracking-wider hover:bg-primary-hover disabled:opacity-50"
                         >
                           {bookingMutation.isPending &&
                           bookingMutation.variables?.id === id
-                            ? "Saving…"
+                            ? "Savingâ€¦"
                             : "Update status"}
                         </button>
                       </>
                     ) : (
-                      <p className="self-center text-xs text-[#A1A1AA]">
+                      <p className="self-center text-xs text-muted-foreground">
                         No admin status changes are available.
                       </p>
                     )}
@@ -1301,7 +1301,7 @@ function SchedulesPage() {
   };
   const entityOptions = type === "branch" ? branches : barbers;
   const entity = (row: RecordData) => row[type] as RecordData | undefined;
-  const label = (row: RecordData) => String(entity(row)?.name || "—");
+  const label = (row: RecordData) => String(entity(row)?.name || "â€”");
 
   return (
     <PageShell
@@ -1329,19 +1329,19 @@ function SchedulesPage() {
         </Alert>
       )}
       {schedulesQuery.isFetching && !schedulesQuery.isPending && (
-        <p role="status" className="text-xs text-[#A1A1AA]">
-          Refreshing schedules… Showing cached data.
+        <p role="status" className="text-xs text-muted-foreground">
+          Refreshing schedulesâ€¦ Showing cached data.
         </p>
       )}
       {schedulesQuery.isError && schedulesQuery.data && (
-        <p role="status" className="text-xs text-amber-300">
+        <p role="status" className="text-xs text-warning">
           Refresh failed; showing the last loaded schedules.
         </p>
       )}
       {notice && <Alert kind="success">{notice}</Alert>}
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.5fr)_minmax(320px,0.8fr)]">
         <Card title="Schedules">
-          <div className="border-b border-[#27272A] px-5 py-3">
+          <div className="border-b border-border px-5 py-3">
             <label htmlFor="schedule-type" className="sr-only">
               Schedule type
             </label>
@@ -1352,7 +1352,7 @@ function SchedulesPage() {
                 setType(event.target.value as ScheduleType);
                 setEditing(null);
               }}
-              className="border border-[#27272A] bg-[#09090B] px-3 py-2 text-xs text-[#FAFAFA]"
+              className="border border-border bg-background px-3 py-2 text-xs text-foreground"
             >
               <option value="branch">Branch hours</option>
               <option value="barber">Barber shifts</option>
@@ -1367,7 +1367,7 @@ function SchedulesPage() {
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full min-w-[560px] text-left text-sm">
-                <thead className="bg-[#09090B] text-[10px] uppercase tracking-wider text-[#A1A1AA]">
+                <thead className="bg-background text-[10px] uppercase tracking-wider text-muted-foreground">
                   <tr>
                     <th className="px-4 py-3">
                       {type === "branch" ? "Branch" : "Barber"}
@@ -1378,37 +1378,37 @@ function SchedulesPage() {
                     <th className="px-4 py-3">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#27272A]">
+                <tbody className="divide-y divide-border">
                   {rows.map((row) => (
                     <tr key={String(row.id)}>
                       <td className="px-4 py-3">{label(row)}</td>
                       <td className="px-4 py-3">
-                        {dayNames[Number(row.dayOfWeek)] || "—"}
+                        {dayNames[Number(row.dayOfWeek)] || "â€”"}
                       </td>
                       <td className="px-4 py-3">
                         {type === "branch"
-                          ? `${timeValue(row.openMinute)}–${timeValue(row.closeMinute)}`
-                          : `${timeValue(row.startMinute)}–${timeValue(row.endMinute)}`}
+                          ? `${timeValue(row.openMinute)}â€“${timeValue(row.closeMinute)}`
+                          : `${timeValue(row.startMinute)}â€“${timeValue(row.endMinute)}`}
                       </td>
                       {type === "barber" && (
                         <td className="px-4 py-3">
                           {row.breakStartMinute == null
-                            ? "—"
-                            : `${timeValue(row.breakStartMinute)}–${timeValue(row.breakEndMinute)}`}
+                            ? "â€”"
+                            : `${timeValue(row.breakStartMinute)}â€“${timeValue(row.breakEndMinute)}`}
                         </td>
                       )}
                       <td className="whitespace-nowrap px-4 py-3">
                         <button
                           type="button"
                           onClick={() => startEdit(row)}
-                          className="mr-3 text-xs font-semibold text-blue-300 hover:text-white"
+                          className="mr-3 text-xs font-semibold text-info hover:text-foreground"
                         >
                           Edit
                         </button>
                         <button
                           type="button"
                           onClick={() => void remove(row)}
-                          className="text-xs font-semibold text-red-300 hover:text-white"
+                          className="text-xs font-semibold text-destructive hover:text-foreground"
                         >
                           Remove
                         </button>
@@ -1424,7 +1424,7 @@ function SchedulesPage() {
           <form onSubmit={submit} className="space-y-4 p-5">
             {!editing && (
               <>
-                <label className="block text-xs font-semibold uppercase tracking-wide text-[#A1A1AA]">
+                <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   {type === "branch" ? "Branch" : "Barber"}
                   <select
                     required
@@ -1435,9 +1435,9 @@ function SchedulesPage() {
                         entityId: event.target.value,
                       }))
                     }
-                    className="mt-1 w-full border border-[#27272A] bg-[#09090B] px-3 py-2.5 text-sm text-[#FAFAFA]"
+                    className="mt-1 w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground"
                   >
-                    <option value="">Select…</option>
+                    <option value="">Selectâ€¦</option>
                     {entityOptions.map((option) => (
                       <option key={option.id} value={option.id}>
                         {option.name}
@@ -1445,7 +1445,7 @@ function SchedulesPage() {
                     ))}
                   </select>
                 </label>
-                <label className="block text-xs font-semibold uppercase tracking-wide text-[#A1A1AA]">
+                <label className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground">
                   Day of week
                   <select
                     value={values.dayOfWeek}
@@ -1455,7 +1455,7 @@ function SchedulesPage() {
                         dayOfWeek: event.target.value,
                       }))
                     }
-                    className="mt-1 w-full border border-[#27272A] bg-[#09090B] px-3 py-2.5 text-sm text-[#FAFAFA]"
+                    className="mt-1 w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground"
                   >
                     {dayNames.map((day, index) => (
                       <option key={day} value={index}>
@@ -1480,7 +1480,7 @@ function SchedulesPage() {
             ).map(([name, text]) => (
               <label
                 key={name}
-                className="block text-xs font-semibold uppercase tracking-wide text-[#A1A1AA]"
+                className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground"
               >
                 {text}
                 <input
@@ -1493,7 +1493,7 @@ function SchedulesPage() {
                       [name]: event.target.value,
                     }))
                   }
-                  className="mt-1 w-full border border-[#27272A] bg-[#09090B] px-3 py-2.5 text-sm text-[#FAFAFA]"
+                  className="mt-1 w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground"
                 />
               </label>
             ))}
@@ -1501,10 +1501,10 @@ function SchedulesPage() {
               <button
                 type="submit"
                 disabled={mutation.isPending}
-                className="bg-[#0033A0] px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-[#00277F] disabled:opacity-50"
+                className="bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-primary-hover disabled:opacity-50"
               >
                 {mutation.isPending
-                  ? "Saving…"
+                  ? "Savingâ€¦"
                   : editing
                     ? "Save changes"
                     : "Create schedule"}
@@ -1513,7 +1513,7 @@ function SchedulesPage() {
                 <button
                   type="button"
                   onClick={() => setEditing(null)}
-                  className="border border-[#52525B] px-4 py-2.5 text-xs font-bold uppercase tracking-wider"
+                  className="border border-subtle px-4 py-2.5 text-xs font-bold uppercase tracking-wider"
                 >
                   Cancel
                 </button>
@@ -1575,8 +1575,8 @@ function ReportsPage() {
         servicesQuery.isFetching ||
         barbersQuery.isFetching) &&
         !isLoading && (
-          <p role="status" className="mb-3 text-xs text-[#A1A1AA]">
-            Refreshing reports… Showing cached data.
+          <p role="status" className="mb-3 text-xs text-muted-foreground">
+            Refreshing reportsâ€¦ Showing cached data.
           </p>
         )}
       {reportError &&
@@ -1584,14 +1584,14 @@ function ReportsPage() {
         !summaryQuery.isFetching &&
         !servicesQuery.isFetching &&
         !barbersQuery.isFetching && (
-          <p role="status" className="mb-3 text-xs text-amber-300">
+          <p role="status" className="mb-3 text-xs text-warning">
             Refresh failed; showing the last loaded reports.
           </p>
         )}
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <label
           htmlFor="report-branch"
-          className="text-xs font-bold uppercase tracking-wider text-[#A1A1AA]"
+          className="text-xs font-bold uppercase tracking-wider text-muted-foreground"
         >
           Branch
         </label>
@@ -1599,7 +1599,7 @@ function ReportsPage() {
           id="report-branch"
           value={branchId}
           onChange={(event) => setBranchId(event.target.value)}
-          className="border border-[#27272A] bg-[#1A1A1D] px-3 py-2 text-xs text-[#FAFAFA]"
+          className="border border-border bg-card px-3 py-2 text-xs text-foreground"
         >
           <option value="">All branches</option>
           {branches.map((branch) => (
@@ -1616,15 +1616,15 @@ function ReportsPage() {
       ) : (
         <div className="space-y-6">
           <Card title="Operational summary">
-            <div className="grid gap-px bg-[#27272A] sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-px bg-muted sm:grid-cols-2 lg:grid-cols-4">
               {[
                 ["Bookings today", data.metrics.totalBookingsToday],
                 ["Awaiting confirmation", data.metrics.queueCount],
                 ["Revenue today (IDR)", data.metrics.revenueToday],
                 ["Active members", data.metrics.totalActiveMembers],
               ].map(([label, value]) => (
-                <div key={String(label)} className="bg-[#1A1A1D] p-4">
-                  <div className="text-[10px] font-bold uppercase tracking-wider text-[#A1A1AA]">
+                <div key={String(label)} className="bg-card p-4">
+                  <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
                     {displayValue(label)}
                   </div>
                   <div className="mt-2 text-2xl font-bold">
@@ -1636,7 +1636,7 @@ function ReportsPage() {
           </Card>
           <div className="grid gap-6 xl:grid-cols-2">
             <Card title="Services report">
-              <p className="border-b border-[#27272A] px-4 py-3 text-xs text-[#A1A1AA]">
+              <p className="border-b border-border px-4 py-3 text-xs text-muted-foreground">
                 Total orders: {displayValue(data.services.totalOrders)}
               </p>
               {data.services.distribution.length === 0 ? (
@@ -1644,7 +1644,7 @@ function ReportsPage() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
-                    <thead className="bg-[#09090B] text-[10px] uppercase text-[#A1A1AA]">
+                    <thead className="bg-background text-[10px] uppercase text-muted-foreground">
                       <tr>
                         <th className="px-4 py-3">Service</th>
                         <th className="px-4 py-3">Price (IDR)</th>
@@ -1652,7 +1652,7 @@ function ReportsPage() {
                         <th className="px-4 py-3">Share</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#27272A]">
+                    <tbody className="divide-y divide-border">
                       {data.services.distribution.map((row) => (
                         <tr key={String(row.id)}>
                           <td className="px-4 py-3">
@@ -1675,7 +1675,7 @@ function ReportsPage() {
               )}
             </Card>
             <Card title="Barbers report">
-              <p className="border-b border-[#27272A] px-4 py-3 text-xs text-[#A1A1AA]">
+              <p className="border-b border-border px-4 py-3 text-xs text-muted-foreground">
                 {data.barbers.totalOnDuty} in service /{" "}
                 {data.barbers.totalChairs} capsters
               </p>
@@ -1684,7 +1684,7 @@ function ReportsPage() {
               ) : (
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
-                    <thead className="bg-[#09090B] text-[10px] uppercase text-[#A1A1AA]">
+                    <thead className="bg-background text-[10px] uppercase text-muted-foreground">
                       <tr>
                         <th className="px-4 py-3">Barber</th>
                         <th className="px-4 py-3">Branch</th>
@@ -1692,7 +1692,7 @@ function ReportsPage() {
                         <th className="px-4 py-3">Cuts today</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-[#27272A]">
+                    <tbody className="divide-y divide-border">
                       {data.barbers.roster.map((row) => (
                         <tr key={String(row.id)}>
                           <td className="px-4 py-3">
@@ -1721,14 +1721,14 @@ function ReportsPage() {
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
-                  <thead className="bg-[#09090B] text-[10px] uppercase text-[#A1A1AA]">
+                  <thead className="bg-background text-[10px] uppercase text-muted-foreground">
                     <tr>
                       <th className="px-4 py-3">Day</th>
                       <th className="px-4 py-3">Bookings</th>
                       <th className="px-4 py-3">Revenue (IDR)</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#27272A]">
+                  <tbody className="divide-y divide-border">
                     {data.weeklyTrends.map((row) => (
                       <tr key={String(row.day)}>
                         <td className="px-4 py-3">{displayValue(row.day)}</td>

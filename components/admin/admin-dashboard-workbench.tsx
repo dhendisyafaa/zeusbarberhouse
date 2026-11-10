@@ -137,7 +137,7 @@ export function AdminDashboardWorkbench() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090B] font-sans text-[#FAFAFA] antialiased selection:bg-[#0033A0] selection:text-[#FAFAFA]">
+    <div className="min-h-screen bg-background font-sans text-foreground antialiased selection:bg-primary selection:text-primary-foreground">
       <AdminSidebar
         activeTab="dashboard-overview"
       />
@@ -151,7 +151,7 @@ export function AdminDashboardWorkbench() {
           <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
             <div>
               <h1 className="text-xl font-bold uppercase tracking-wide">Dashboard Operasional</h1>
-              <p className="mt-1 text-sm text-zinc-400">Ringkasan dari data booking dan transaksi aktual.</p>
+              <p className="mt-1 text-sm text-muted-foreground">Ringkasan dari data booking dan transaksi aktual.</p>
             </div>
             <button
               type="button"
@@ -161,7 +161,7 @@ export function AdminDashboardWorkbench() {
                 queryClient.invalidateQueries({ queryKey: adminQueryKeys.reports.all }),
               ])}
               disabled={isLoading || isRefreshing}
-              className="inline-flex items-center gap-2 border border-zinc-700 px-3 py-2 text-sm hover:border-blue-500 disabled:opacity-60"
+              className="inline-flex items-center gap-2 border border-border px-3 py-2 text-sm hover:border-primary disabled:opacity-60"
             >
               <RefreshCw className={`h-4 w-4 ${isRefreshing ? "animate-spin" : ""}`} />
               Muat ulang
@@ -169,24 +169,24 @@ export function AdminDashboardWorkbench() {
           </div>
 
           {queryError || mutationError ? (
-            <div role="alert" className="mb-5 flex items-center gap-2 border border-red-800 bg-red-950/40 p-3 text-sm text-red-200">
+            <div role="alert" className="mb-5 flex items-center gap-2 border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive">
               <AlertCircle className="h-4 w-4 shrink-0" />
               <span>{mutationError || (queryError instanceof Error ? queryError.message : "Data dashboard gagal dimuat.")}</span>
             </div>
           ) : null}
           {isRefreshing && !isLoading && (
-            <p role="status" className="mb-3 text-xs text-zinc-400">Memperbarui data… Menampilkan data cache sementara.</p>
+            <p role="status" className="mb-3 text-xs text-muted-foreground">Memperbarui data… Menampilkan data cache sementara.</p>
           )}
           {queryError && metrics && !isRefreshing && (
-            <p role="status" className="mb-3 text-xs text-amber-300">Pembaruan gagal; menampilkan data terakhir yang berhasil dimuat.</p>
+            <p role="status" className="mb-3 text-xs text-warning">Pembaruan gagal; menampilkan data terakhir yang berhasil dimuat.</p>
           )}
 
           {isLoading && !metrics ? (
-            <p className="py-16 text-center text-sm text-zinc-400">Memuat dashboard...</p>
+            <p className="py-16 text-center text-sm text-muted-foreground">Memuat dashboard...</p>
           ) : null}
 
           {!isLoading && !metrics && !queryError ? (
-            <p className="py-16 text-center text-sm text-zinc-400">Belum ada data dashboard.</p>
+            <p className="py-16 text-center text-sm text-muted-foreground">Belum ada data dashboard.</p>
           ) : null}
 
           {metrics ? (
@@ -197,7 +197,7 @@ export function AdminDashboardWorkbench() {
                 className="h-1 w-full bg-repeat-x bg-[length:16px_4px]"
                 style={{
                   backgroundImage:
-                    "repeating-linear-gradient(90deg, #FF2A2A 0, #FF2A2A 8px, #0033A0 8px, #0033A0 16px)",
+                    "repeating-linear-gradient(90deg, var(--destructive) 0, var(--destructive) 8px, var(--primary) 8px, var(--primary) 16px)",
                 }}
               />
               <div className="grid grid-cols-1 gap-4 lg:grid-cols-12">

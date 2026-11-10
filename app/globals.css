@@ -20,48 +20,71 @@
   --font-heading: "Oswald", sans-serif;
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --color-background: #09090b;
-  --color-foreground: #fafafa;
-  --color-card: #1a1a1d;
-  --color-card-foreground: #fafafa;
-  --color-popover: #1a1a1d;
-  --color-popover-foreground: #fafafa;
-  --color-primary: #0033a0;
-  --color-primary-foreground: #fafafa;
-  --color-secondary: #1a1a1d;
-  --color-secondary-foreground: #fafafa;
-  --color-muted: #1a1a1d;
-  --color-muted-foreground: #a1a1aa;
-  --color-accent: #0033a0;
-  --color-accent-foreground: #fafafa;
-  --color-destructive: #ff2a2a;
-  --color-border: #27272a;
-  --color-input: #27272a;
-  --color-ring: #0033a0;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-soft: var(--destructive-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-inset: var(--inset);
+  --color-hover: var(--hover);
+  --color-subtle: var(--subtle);
+  --color-subtle-foreground: var(--subtle-foreground);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
 }
 
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #1a1a1d;
-  --card-foreground: #fafafa;
-  --popover: #1a1a1d;
-  --popover-foreground: #fafafa;
+  color-scheme: light;
+  --background: #f5ecdc;
+  --foreground: #1c1917;
+  --card: #fffaf0;
+  --card-foreground: #1c1917;
+  --popover: #fffaf0;
+  --popover-foreground: #1c1917;
   --primary: #0033a0;
   --primary-foreground: #fafafa;
-  --secondary: #1a1a1d;
-  --secondary-foreground: #fafafa;
-  --muted: #1a1a1d;
-  --muted-foreground: #a1a1aa;
-  --accent: #0033a0;
-  --accent-foreground: #fafafa;
-  --destructive: #ff2a2a;
-  --border: #27272a;
-  --input: #27272a;
+  --primary-hover: #00277f;
+  --secondary: #eadfcd;
+  --secondary-foreground: #1c1917;
+  --muted: #ece1cf;
+  --muted-foreground: #5f5548;
+  --accent: #e3d5bd;
+  --accent-foreground: #1c1917;
+  --destructive: #b91c1c;
+  --destructive-foreground: #fffaf0;
+  --destructive-soft: #b91c1c;
+  --border: #9c876b;
+  --input: #8a765c;
   --ring: #0033a0;
+  --inset: #efe3cf;
+  --hover: #e8dcc8;
+  --subtle: #6b5f50;
+  --subtle-foreground: #3f382f;
+  --info: #1d4ed8;
+  --success: #047857;
+  --warning: #a16207;
+  --shadow: #1c1917;
 }
 
 .dark {
+  color-scheme: dark;
   --background: #09090b;
   --foreground: #fafafa;
   --card: #1a1a1d;
@@ -70,6 +93,7 @@
   --popover-foreground: #fafafa;
   --primary: #0033a0;
   --primary-foreground: #fafafa;
+  --primary-hover: #00277f;
   --secondary: #1a1a1d;
   --secondary-foreground: #fafafa;
   --muted: #1a1a1d;
@@ -77,18 +101,28 @@
   --accent: #0033a0;
   --accent-foreground: #fafafa;
   --destructive: #ff2a2a;
+  --destructive-foreground: #fafafa;
+  --destructive-soft: #ffb4b4;
   --border: #27272a;
   --input: #27272a;
   --ring: #0033a0;
+  --inset: #111113;
+  --hover: #2a2a2c;
+  --subtle: #52525b;
+  --subtle-foreground: #c4c5d5;
+  --info: #b6c4ff;
+  --success: #6ee7b7;
+  --warning: #fcd34d;
+  --shadow: #09090b;
 }
 
 @layer base {
   * {
-    border-color: #27272a;
+    border-color: var(--border);
   }
   body {
-    background-color: #09090b;
-    color: #fafafa;
+    background-color: var(--background);
+    color: var(--foreground);
     font-family: var(--font-inter), sans-serif;
   }
   h1, h2, h3, h4, .font-display {
@@ -100,28 +134,50 @@
 .racing-divider {
   height: 6px;
   width: 100%;
-  background: repeating-linear-gradient(45deg, #09090b, #09090b 10px, #fafafa 10px, #fafafa 20px);
-  border-top: 1px solid #27272a;
-  border-bottom: 1px solid #27272a;
+  background: repeating-linear-gradient(45deg, var(--background), var(--background) 10px, var(--foreground) 10px, var(--foreground) 20px);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .racing-divider-red {
   height: 6px;
   width: 100%;
-  background: repeating-linear-gradient(45deg, #09090b, #09090b 10px, #ff2a2a 10px, #ff2a2a 20px);
-  border-top: 1px solid #27272a;
-  border-bottom: 1px solid #27272a;
+  background: repeating-linear-gradient(45deg, var(--background), var(--background) 10px, var(--destructive) 10px, var(--destructive) 20px);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 /* Hard Drop Shadow with 0px blur per design.md */
 .hard-shadow-blue {
-  box-shadow: 4px 4px 0px 0px #0033a0;
+  box-shadow: 4px 4px 0px 0px var(--primary);
 }
 
 .hard-shadow-white {
-  box-shadow: 4px 4px 0px 0px #fafafa;
+  box-shadow: 4px 4px 0px 0px var(--foreground);
 }
 
 .hard-shadow-red {
-  box-shadow: 4px 4px 0px 0px #ff2a2a;
+  box-shadow: 4px 4px 0px 0px var(--destructive);
+}
+
+/* Theme-aware decorative patterns */
+.checkerboard-default {
+  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 8px, var(--foreground) 8px, var(--foreground) 16px);
+}
+
+.checkerboard-crimson {
+  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 8px, var(--destructive) 8px, var(--destructive) 16px);
+}
+
+.checkerboard-blue {
+  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 8px, var(--primary) 8px, var(--primary) 16px);
+}
+
+.stripe-blue {
+  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 10px, var(--primary) 10px, var(--primary) 20px);
+}
+
+.dot-grid {
+  background-image: radial-gradient(var(--border) 1px, transparent 1px);
+  background-size: 20px 20px;
 }

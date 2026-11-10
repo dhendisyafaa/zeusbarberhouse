@@ -23,17 +23,17 @@ export function StepServices({
 }: StepServicesProps) {
   return (
     <section id="step-layanan" className="flex flex-col gap-4">
-      <div className="flex items-center gap-3 border-b border-[#27272A] pb-3">
-        <span className="flex h-7 w-7 items-center justify-center bg-[#FAFAFA] font-heading text-sm font-bold text-[#09090B]">
+      <div className="flex items-center gap-3 border-b border-border pb-3">
+        <span className="flex h-7 w-7 items-center justify-center bg-foreground font-heading text-sm font-bold text-background">
           3
         </span>
-        <h2 className="font-heading text-xl font-bold uppercase tracking-tight text-[#FAFAFA] sm:text-2xl">
+        <h2 className="font-heading text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
           LAYANAN & PAKET
         </h2>
       </div>
 
       {services.length === 0 ? (
-        <p className="border border-[#27272A] bg-[#1A1A1D] p-4 text-sm text-[#A1A1AA]">
+        <p className="border border-border bg-card p-4 text-sm text-muted-foreground">
           Belum ada layanan yang tersedia.
         </p>
       ) : (
@@ -46,32 +46,32 @@ export function StepServices({
                 key={service.id}
                 onClick={() => onToggleService(service.id)}
                 aria-pressed={isSelected}
-                className={`flex flex-col justify-between border bg-[#1A1A1D] p-4 text-left transition-colors ${
+                className={`flex flex-col justify-between border bg-card p-4 text-left transition-colors ${
                   isSelected
-                    ? "border-[#0033A0] shadow-[4px_4px_0px_0px_#0033A0]"
-                    : "border-[#27272A] hover:border-[#0033A0]/60"
+                    ? "border-primary shadow-[4px_4px_0px_0px_var(--primary)]"
+                    : "border-border hover:border-primary/60"
                 }`}
               >
                 <span>
-                  <span className="block font-heading text-lg font-bold uppercase text-[#FAFAFA]">
+                  <span className="block font-heading text-lg font-bold uppercase text-foreground">
                     {service.title}
                   </span>
-                  <span className="mt-1 block text-xs leading-relaxed text-[#A1A1AA]">
+                  <span className="mt-1 block text-xs leading-relaxed text-muted-foreground">
                     {service.description || "Layanan tersedia untuk dibooking."}
                   </span>
                 </span>
-                <span className="mt-4 flex items-center justify-between border-t border-[#27272A] pt-3">
-                  <span className="inline-flex items-center gap-1 text-xs text-[#A1A1AA]">
+                <span className="mt-4 flex items-center justify-between border-t border-border pt-3">
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3.5 w-3.5" />
                     {service.duration} menit
                   </span>
-                  <span className="flex items-center gap-2 font-heading text-lg font-bold text-[#FAFAFA]">
+                  <span className="flex items-center gap-2 font-heading text-lg font-bold text-foreground">
                     Rp {service.price.toLocaleString("id-ID")}
                     <span
                       className={`flex h-5 w-5 items-center justify-center border ${
                         isSelected
-                          ? "border-[#0033A0] bg-[#0033A0]"
-                          : "border-[#52525B]"
+                          ? "border-primary bg-primary text-primary-foreground"
+                          : "border-subtle"
                       }`}
                     >
                       <Check className="h-3.5 w-3.5" />

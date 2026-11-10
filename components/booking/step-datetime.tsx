@@ -39,19 +39,19 @@ export function StepDateTime({
 
   return (
     <section id="step-jadwal" className="flex flex-col gap-4">
-      <div className="flex items-center gap-3 border-b border-[#27272A] pb-3">
-        <span className="flex h-7 w-7 items-center justify-center bg-[#FAFAFA] font-heading text-sm font-bold text-[#09090B]">
+      <div className="flex items-center gap-3 border-b border-border pb-3">
+        <span className="flex h-7 w-7 items-center justify-center bg-foreground font-heading text-sm font-bold text-background">
           4
         </span>
-        <h2 className="font-heading text-xl font-bold uppercase tracking-tight text-[#FAFAFA] sm:text-2xl">
+        <h2 className="font-heading text-xl font-bold uppercase tracking-tight text-foreground sm:text-2xl">
           PILIH TANGGAL & JAM
         </h2>
       </div>
 
-      <label className="max-w-sm text-xs font-bold uppercase tracking-wider text-[#A1A1AA]">
+      <label className="max-w-sm text-xs font-bold uppercase tracking-wider text-muted-foreground">
         Tanggal booking
         <span className="relative mt-2 block">
-          <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-[#0033A0]" />
+          <CalendarDays className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-primary" />
           <input
             type="date"
             required
@@ -61,20 +61,20 @@ export function StepDateTime({
               onSelectDate(event.target.value);
               onSelectTime("");
             }}
-            className="w-full border border-[#27272A] bg-[#1A1A1D] py-3 pl-10 pr-3 text-sm text-[#FAFAFA] outline-none focus:border-[#0033A0]"
+            className="w-full border border-border bg-card py-3 pl-10 pr-3 text-sm text-foreground outline-none focus:border-primary"
           />
         </span>
       </label>
 
-      <div className="border border-[#27272A] bg-[#1A1A1D] p-4">
-        <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#FAFAFA]">
-          <Clock className="h-4 w-4 text-[#0033A0]" />
+      <div className="border border-border bg-card p-4">
+        <h3 className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-foreground">
+          <Clock className="h-4 w-4 text-primary" />
           Slot booking
         </h3>
         {isLoading ? (
           <p
             role="status"
-            className="border border-[#52525B] bg-[#09090B] p-4 text-sm text-[#FAFAFA]"
+            className="border border-subtle bg-background p-4 text-sm text-foreground"
           >
             Memeriksa slot untuk {selectedServiceCount} layanan dengan total
             durasi {totalDurationMinutes} menit…
@@ -82,7 +82,7 @@ export function StepDateTime({
         ) : availabilityError ? (
           <div
             role="alert"
-            className="border-2 border-red-500 bg-red-950 p-4 text-sm text-red-100"
+            className="border-2 border-destructive bg-destructive/10 p-4 text-sm text-destructive"
           >
             <p className="flex items-center gap-2 font-bold uppercase">
               <AlertTriangle className="h-4 w-4 shrink-0" />
@@ -92,7 +92,7 @@ export function StepDateTime({
             <button
               type="button"
               onClick={onRetry}
-              className="mt-3 border border-red-400 bg-red-900 px-3 py-2 font-bold text-white hover:bg-red-800"
+              className="mt-3 border border-destructive bg-destructive/15 px-3 py-2 font-bold text-foreground hover:bg-destructive/20"
             >
               Coba lagi
             </button>
@@ -100,7 +100,7 @@ export function StepDateTime({
         ) : !canCheckAvailability ? (
           <p
             role="status"
-            className="border border-[#52525B] bg-[#09090B] p-4 text-sm text-[#D4D4D8]"
+            className="border border-subtle bg-background p-4 text-sm text-foreground"
           >
             Pilih cabang, capster, dan minimal satu layanan untuk memeriksa
             slot booking.
@@ -108,7 +108,7 @@ export function StepDateTime({
         ) : availableTimes.length === 0 ? (
           <div
             role="status"
-            className="border-2 border-red-500 bg-red-950 p-4 text-sm text-red-100"
+            className="border-2 border-destructive bg-destructive/10 p-4 text-sm text-destructive"
           >
             <p className="flex items-center gap-2 font-bold uppercase">
               <AlertTriangle className="h-4 w-4 shrink-0" />
@@ -134,8 +134,8 @@ export function StepDateTime({
                 aria-pressed={selectedTime === time}
                 className={`border px-4 py-2.5 text-sm font-bold ${
                   selectedTime === time
-                    ? "border-[#0033A0] bg-[#0033A0] text-white"
-                    : "border-[#52525B] bg-[#09090B] text-[#D4D4D8] hover:border-[#0033A0]"
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-subtle bg-background text-foreground hover:border-primary"
                 }`}
               >
                 {time}

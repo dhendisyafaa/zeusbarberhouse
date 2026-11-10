@@ -44,7 +44,7 @@ export function AdminLoginForm() {
           autoComplete="username"
           name="email"
           type="email"
-          className="w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-2"
+          className="w-full rounded border border-border bg-background px-3 py-2"
         />
       </label>
       <label className="block space-y-1 text-sm">
@@ -54,16 +54,16 @@ export function AdminLoginForm() {
           autoComplete="current-password"
           name="password"
           type="password"
-          className="w-full rounded border border-zinc-700 bg-zinc-950 px-3 py-2"
+          className="w-full rounded border border-border bg-background px-3 py-2"
         />
       </label>
       {errorMessage ? (
-        <p role="alert" className="text-sm text-red-400">{errorMessage}</p>
+        <p role="alert" className="text-sm text-destructive">{errorMessage}</p>
       ) : null}
       <button
         disabled={isSubmitting}
         type="submit"
-        className="w-full rounded bg-blue-700 px-4 py-2 font-semibold text-white disabled:opacity-60"
+        className="w-full rounded bg-primary px-4 py-2 font-semibold text-primary-foreground disabled:opacity-60"
       >
         {isSubmitting ? 'Memeriksa...' : 'Masuk'}
       </button>
