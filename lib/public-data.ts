@@ -1,30 +1,31 @@
-import { db } from '@/src/prisma/db';
-import { attachBarberPhotoUrls } from '@/lib/supabase/barber-photos';
+import { db } from "@/src/prisma/db";
+import { attachBarberPhotoUrls } from "@/lib/supabase/barber-photos";
 import {
   createHaircutImageSignedUrl,
   getHaircutImageStorage,
-} from '@/lib/supabase/haircut-images';
+} from "@/lib/supabase/haircut-images";
 
 function formatMinute(minute: number) {
-  return `${String(Math.floor(minute / 60)).padStart(2, '0')}:${String(minute % 60).padStart(2, '0')}`;
+  return `${String(Math.floor(minute / 60)).padStart(2, "0")}:${String(minute % 60).padStart(2, "0")}`;
 }
 
 export async function getHomePageData() {
   const [services, branches, barbers, membershipPolicy] = await Promise.all([
-    db.orm.public.Service
-      .where({ isActive: true })
-      .orderBy([(service) => service.sortOrder.asc(), (service) => service.name.asc()])
-      .select('id', 'name', 'description', 'priceRupiah', 'durationMinutes')
+    db.orm.public.Service.where({ isActive: true })
+      .orderBy([
+        (service) => service.sortOrder.asc(),
+        (service) => service.name.asc(),
+      ])
+      .select("id", "name", "description", "priceRupiah", "durationMinutes")
       .all(),
-    db.orm.public.Branch
-      .where({ isActive: true })
-      .include('schedules')
+    db.orm.public.Branch.where({ isActive: true })
+      .include("schedules")
       .orderBy((branch) => branch.name.asc())
       .all(),
     getPublicBarbers(),
-    db.orm.public.MembershipPointPolicy
-      .select('pointsPerCompletedBooking')
-      .first({ id: 'default' }),
+    db.orm.public.MembershipPointPolicy.select(
+      "pointsPerCompletedBooking",
+    ).first({ id: "default" }),
   ]);
 
   return {
@@ -44,23 +45,25 @@ export async function getHomePageData() {
       })),
     })),
     barbers: barbers.map((barber) => ({
-      id: barber.id,
-      name: barber.name,
-      bio: barber.bio,
-      photoUrl: barber.photoUrl,
-      branchId: barber.branchId,
-      branchName: barber.branch.name,
+      id: barber?.id,
+      name: barber?.name,
+      bio: barber?.bio,
+      photoUrl: barber?.photoUrl,
+      branchId: barber?.branchId,
+      branchName: barber?.branch?.name ?? "Cabang tidak tersedia",
     })),
-    barberCount: barbers.length,
+    barberCount: barbers?.length,
     pointsPerCompletedBooking: membershipPolicy?.pointsPerCompletedBooking ?? 0,
   };
 }
 
 export async function getPublicBarbers(branchId?: string | null) {
-  const barbers = await db.orm.public.Barber
-    .where({ isActive: true, ...(branchId ? { branchId } : {}) })
-    .include('branch', (branch) => branch.select('id', 'name', 'slug'))
-    .include('schedules')
+  const barbers = await db.orm.public.Barber.where({
+    isActive: true,
+    ...(branchId ? { branchId } : {}),
+  })
+    .include("branch", (branch) => branch.select("id", "name", "slug"))
+    .include("schedules")
     .orderBy((barber) => barber.name.asc())
     .all();
 
@@ -69,16 +72,15 @@ export async function getPublicBarbers(branchId?: string | null) {
     id: barber.id,
     name: barber.name,
     bio: barber.bio,
-    branchId: barber.branchId,
-    branch: barber.branch,
+    branchId: barber?.branchId,
+    branch: barber?.branch,
     schedules: barber.schedules,
     photoUrl: barber.photoUrl,
   }));
 }
 
 export async function getPublicHaircutModels() {
-  const models = await db.orm.public.HaircutModel
-    .where({ isPublished: true })
+  const models = await db.orm.public.HaircutModel.where({ isPublished: true })
     .orderBy([
       (model) => model.sortOrder.asc(),
       (model) => model.createdAt.desc(),
@@ -86,35 +88,45 @@ export async function getPublicHaircutModels() {
     .all();
 
   const storage = await getHaircutImageStorage();
-  return Promise.all(models.map(async (model) => {
-    return {
-      id: model.id,
-      title: model.title,
-      description: model.description,
-      imageUrl: await createHaircutImageSignedUrl(storage, model.imagePath),
-      createdAt: model.createdAt,
-    };
-  }));
+  return Promise.all(
+    models.map(async (model) => {
+      return {
+        id: model.id,
+        title: model.title,
+        description: model.description,
+        imageUrl: await createHaircutImageSignedUrl(storage, model.imagePath),
+        createdAt: model.createdAt,
+      };
+    }),
+  );
 }
 
 export async function getPublicVacancies() {
   const now = new Date();
-  return db.orm.public.CareerVacancy
-    .where((vacancy) => vacancy.isPublished.eq(true))
+  return db.orm.public.CareerVacancy.where((vacancy) =>
+    vacancy.isPublished.eq(true),
+  )
     .where((vacancy, { fns }) =>
       fns.or(vacancy.closesAt.isNull(), vacancy.closesAt.gt(now)),
     )
     .orderBy((vacancy) => vacancy.publishedAt.desc())
-    .select('id', 'title', 'description', 'publishedAt', 'closesAt', 'createdAt')
+    .select(
+      "id",
+      "title",
+      "description",
+      "publishedAt",
+      "closesAt",
+      "createdAt",
+    )
     .all();
 }
 
 export function formatOperatingHours(
   schedules: { dayOfWeek: number; open: string; close: string }[],
 ) {
-  const dayLabels = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+  const dayLabels = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
   return schedules.map((schedule) => ({
     ...schedule,
-    dayLabel: dayLabels[schedule.dayOfWeek] ?? 'Hari',
+    dayLabel: dayLabels[schedule.dayOfWeek] ?? "Hari",
   }));
 }
