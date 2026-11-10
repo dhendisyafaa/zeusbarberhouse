@@ -1,11 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { requireAdmin } from '@/lib/api/auth';
-import { db } from '@/src/prisma/db';
-import { ok, created, handleError } from '@/lib/api/response';
-import { parsePagination } from '@/lib/api/pagination';
-import { createBarberSchema } from '@/lib/schemas/barber.schema';
 import { notFound } from '@/lib/api/errors';
-import { parseUuid, readJson } from '@/lib/api/request';
+import { parsePagination } from '@/lib/api/pagination';
+import { parseUuid } from '@/lib/api/request';
+import { created, handleError, ok } from '@/lib/api/response';
+import { attachBarberPhotoUrls, getBarberPhotoStorage } from '@/lib/supabase/barber-photos';
+import { readBarberUpload } from '@/lib/uploads/barber-photo';
+import { db } from '@/src/prisma/db';
 
 export async function GET(request: NextRequest) {
   try {
@@ -31,31 +32,54 @@ export async function GET(request: NextRequest) {
         .aggregate((aggregate) => ({ total: aggregate.count() })),
     ]);
 
-    return ok(barbers, { page, limit, total: total.total });
+    return ok(await attachBarberPhotoUrls(barbers), { page, limit, total: total.total });
   } catch (error) {
     return handleError(error);
   }
 }
 
 export async function POST(request: NextRequest) {
+  let storage: Awaited<ReturnType<typeof getBarberPhotoStorage>> | null = null;
+  let storagePath: string | null = null;
+  let uploaded = false;
+
   try {
     await requireAdmin(request);
-    const body = await readJson(request);
-    const input = createBarberSchema.parse(body);
+    const { input, file, bytes } = await readBarberUpload(request, { requirePhoto: true });
+    if (!file || !bytes) throw new Error('Required barber photo was not parsed');
 
     const branch = await db.orm.public.Branch.first({ id: input.branchId });
     if (!branch || !branch.isActive) throw notFound('Cabang');
 
-    const barber = await db.orm.public.Barber
-      .include('branch', (relatedBranch) => relatedBranch.select('id', 'name'))
-      .create({
-        branchId: input.branchId,
-        name: input.name,
-        bio: input.bio ?? null,
-      });
+    storage = await getBarberPhotoStorage();
+    const extension = file.type === 'image/jpeg' ? 'jpg' : file.type.split('/')[1];
+    const uploadedPath = `${crypto.randomUUID()}.${extension}`;
+    storagePath = uploadedPath;
+
+    const { error: uploadError } = await storage.upload(uploadedPath, bytes, {
+      contentType: file.type,
+      upsert: false,
+    });
+    if (uploadError) throw uploadError;
+    uploaded = true;
+
+    const barber = await db.transaction(async (tx) =>
+      tx.orm.public.Barber
+        .include('branch', (relatedBranch) => relatedBranch.select('id', 'name'))
+        .create({
+          branchId: input.branchId,
+          name: input.name,
+          bio: input.bio ?? null,
+          photoPath: uploadedPath,
+        }),
+    );
 
     return created(barber);
   } catch (error) {
+    if (uploaded && storage && storagePath) {
+      const { error: cleanupError } = await storage.remove([storagePath]);
+      if (cleanupError) console.error('[Barber photo cleanup failed]', cleanupError);
+    }
     return handleError(error);
   }
 }

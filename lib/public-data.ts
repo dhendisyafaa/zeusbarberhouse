@@ -1,4 +1,5 @@
 import { db } from '@/src/prisma/db';
+import { attachBarberPhotoUrls } from '@/lib/supabase/barber-photos';
 import {
   createHaircutImageSignedUrl,
   getHaircutImageStorage,
@@ -20,7 +21,7 @@ export async function getHomePageData() {
       .include('schedules')
       .orderBy((branch) => branch.name.asc())
       .all(),
-    db.orm.public.Barber.where({ isActive: true }).all(),
+    getPublicBarbers(),
     db.orm.public.MembershipPointPolicy
       .select('pointsPerCompletedBooking')
       .first({ id: 'default' }),
@@ -42,9 +43,37 @@ export async function getHomePageData() {
         close: formatMinute(schedule.closeMinute),
       })),
     })),
+    barbers: barbers.map((barber) => ({
+      id: barber.id,
+      name: barber.name,
+      bio: barber.bio,
+      photoUrl: barber.photoUrl,
+      branchId: barber.branchId,
+      branchName: barber.branch.name,
+    })),
     barberCount: barbers.length,
     pointsPerCompletedBooking: membershipPolicy?.pointsPerCompletedBooking ?? 0,
   };
+}
+
+export async function getPublicBarbers(branchId?: string | null) {
+  const barbers = await db.orm.public.Barber
+    .where({ isActive: true, ...(branchId ? { branchId } : {}) })
+    .include('branch', (branch) => branch.select('id', 'name', 'slug'))
+    .include('schedules')
+    .orderBy((barber) => barber.name.asc())
+    .all();
+
+  const withPhotos = await attachBarberPhotoUrls(barbers);
+  return withPhotos.map((barber) => ({
+    id: barber.id,
+    name: barber.name,
+    bio: barber.bio,
+    branchId: barber.branchId,
+    branch: barber.branch,
+    schedules: barber.schedules,
+    photoUrl: barber.photoUrl,
+  }));
 }
 
 export async function getPublicHaircutModels() {

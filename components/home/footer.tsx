@@ -152,6 +152,12 @@ export function Footer() {
                 Cara Booking Online
               </a>
               <Link
+                href="/#capster"
+                className="text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
+              >
+                Capster
+              </Link>
+              <Link
                 href="/branches"
                 className="text-[#A1A1AA] hover:text-[#FAFAFA] transition-colors"
               >

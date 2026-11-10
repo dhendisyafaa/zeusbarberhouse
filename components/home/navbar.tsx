@@ -9,6 +9,7 @@ import { CheckerboardDivider } from "./checkerboard-divider";
 const navLinks = [
   { name: "Home", href: "/" },
   { name: "Layanan & Harga", href: "/#layanan" },
+  { name: "Capster", href: "/#capster" },
   { name: "Cabang", href: "/#cabang" },
   { name: "Model Rambut", href: "/haircut-models" },
   { name: "Membership", href: "/#membership" },

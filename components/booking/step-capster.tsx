@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { CheckCircle2, Scissors } from "lucide-react";
 
 export interface CapsterOption {
@@ -7,6 +8,7 @@ export interface CapsterOption {
   name: string;
   nickname: string;
   specialty: string;
+  photoUrl?: string | null;
 }
 
 interface StepCapsterProps {
@@ -53,8 +55,18 @@ export function StepCapster({
                     : "border-[#27272A] hover:border-[#0033A0]/60"
                 }`}
               >
-                <span className="flex h-16 w-16 shrink-0 items-center justify-center border border-[#27272A] bg-[#09090B]">
-                  <Scissors className="h-6 w-6 text-[#0033A0]" />
+                <span className="relative flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden border border-[#27272A] bg-[#09090B]">
+                  {capster.photoUrl ? (
+                    <Image
+                      src={capster.photoUrl}
+                      alt={capster.name}
+                      fill
+                      unoptimized
+                      className="object-cover"
+                    />
+                  ) : (
+                    <Scissors className="h-6 w-6 text-[#0033A0]" />
+                  )}
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="flex items-center justify-between gap-2 font-heading text-lg font-bold uppercase">

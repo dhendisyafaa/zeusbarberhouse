@@ -33,6 +33,7 @@ type BarberApiRow = {
   id: string;
   name: string;
   bio: string | null;
+  photoUrl: string | null;
   branchId: string;
   branch: { id: string; name: string; slug: string };
 };
@@ -177,6 +178,7 @@ export function BookingFormWorkbench() {
     name: barber.name,
     nickname: barber.name,
     specialty: barber.bio ?? "",
+    photoUrl: barber.photoUrl,
   }));
   const selectedCapster =
     capsters.find((capster) => capster.id === selectedCapsterId) ?? capsters[0];

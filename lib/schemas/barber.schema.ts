@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 export const createBarberSchema = z.object({
   branchId: z.string().uuid('branchId harus berupa UUID valid'),
-  name: z.string().min(1, 'Nama capster wajib diisi').max(100),
-  bio: z.string().max(500).optional(),
+  name: z.string().trim().min(1, 'Nama capster wajib diisi').max(100),
+  bio: z.string().max(500).nullable().optional(),
 });
 
 export const updateBarberSchema = createBarberSchema.partial().extend({

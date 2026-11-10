@@ -3,6 +3,7 @@ import { Navbar } from "@/components/home/navbar";
 import { HeroSection } from "@/components/home/hero-section";
 import { CheckerboardDivider } from "@/components/home/checkerboard-divider";
 import { ServicesSection } from "@/components/home/services-section";
+import { BarbersSection } from "@/components/home/barbers-section";
 import { BookingFeatureSection } from "@/components/home/booking-feature-section";
 import { BranchesSection } from "@/components/home/branches-section";
 import { MembershipSection } from "@/components/home/membership-section";
@@ -23,6 +24,7 @@ export default async function Home() {
         />
         <CheckerboardDivider variant="crimson" />
         <ServicesSection services={data.services} />
+        <BarbersSection barbers={data.barbers} />
 
         {/* Section 3: 15-Minute Soft-Lock Booking Feature */}
         {/* <BookingFeatureSection /> */}

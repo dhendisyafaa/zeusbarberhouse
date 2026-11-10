@@ -180,9 +180,11 @@ const configs: Record<ConfiguredResource, ResourceConfig> = {
   },
   barbers: {
     title: "Barbers",
-    description: "Manage barber profiles and their assigned branch.",
+    description:
+      "Kelola profil capster, cabang, dan foto yang diunggah langsung.",
     endpoint: "/api/admin/barbers",
     columns: [
+      { key: "photoUrl", label: "Foto" },
       { key: "name", label: "Name" },
       { key: "branch.name", label: "Branch" },
       { key: "bio", label: "Bio" },
@@ -192,14 +194,17 @@ const configs: Record<ConfiguredResource, ResourceConfig> = {
       branchField(),
       field("name", "Name", "text", true),
       field("bio", "Bio", "textarea"),
+      field("photo", "Foto", "file", true),
     ],
     updateFields: [
       branchField(),
       field("name", "Name"),
       field("bio", "Bio", "textarea"),
+      field("photo", "Foto baru (opsional)", "file"),
       field("isActive", "Active", "checkbox"),
     ],
     archiveLabel: "Archive barber",
+    multipart: true,
   },
   "haircut-models": {
     title: "Haircut Models",
@@ -464,6 +469,8 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
           const value = formValues[item.name];
           if (item.type === "file") {
             if (value instanceof File) formData.append(item.name, value);
+          } else if (typeof value === "boolean") {
+            formData.append(item.name, value ? "true" : "false");
           } else if (typeof value === "string") {
             formData.append(item.name, value.trim());
           }
@@ -636,11 +643,12 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                             key={column.key}
                             className="max-w-56 px-4 py-3 text-[#D4D4D8]"
                           >
-                            {column.key === "imageUrl" ? (
+                            {column.key === "imageUrl" ||
+                            column.key === "photoUrl" ? (
                               typeof value === "string" ? (
                                 <Image
                                   src={value}
-                                  alt={`Haircut model ${String(row.title ?? "")}`}
+                                  alt={String(row.title ?? row.name ?? "Foto")}
                                   width={112}
                                   height={72}
                                   unoptimized
@@ -648,7 +656,9 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                                 />
                               ) : (
                                 <span className="text-xs text-amber-300">
-                                  Image missing — upload a replacement.
+                                  {column.key === "photoUrl"
+                                    ? "Foto belum diunggah."
+                                    : "Image missing — upload a replacement."}
                                 </span>
                               )
                             ) : (
@@ -749,7 +759,11 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                       }
                       className={controlClass}
                     >
-                      {!item.required && <option value="">No branch</option>}
+                      {item.required ? (
+                        <option value="">Select...</option>
+                      ) : (
+                        <option value="">No branch</option>
+                      )}
                       {options.map((option) => (
                         <option key={option.value} value={option.value}>
                           {option.label}
