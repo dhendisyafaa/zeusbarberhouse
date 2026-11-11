@@ -3,11 +3,22 @@ import type { Metadata } from "next";
 import { Navbar } from "@/components/home/navbar";
 import { Footer } from "@/components/home/footer";
 import { BookingFormWorkbench } from "@/components/booking/booking-form-workbench";
+import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
-  title: "Booking Jadwal Online | Zeus BarberHouse BDG",
+  title: "Booking Jadwal Online",
   description:
     "Reservasi kursi dan capster andalan secara online dengan sistem soft-lock 15 menit. Anti double-booking, cepat, dan transparan.",
+  alternates: {
+    canonical: "/booking",
+  },
+  openGraph: {
+    title: "Booking Jadwal Online Zeus BarberHouse",
+    description:
+      "Reservasi kursi dan capster andalan secara online dengan sistem soft-lock 15 menit.",
+    url: "/booking",
+    images: [siteConfig.ogImage],
+  },
 };
 
 export default function BookingPage() {

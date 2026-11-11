@@ -8,7 +8,9 @@ import { BookingFeatureSection } from "@/components/home/booking-feature-section
 import { BranchesSection } from "@/components/home/branches-section";
 import { MembershipSection } from "@/components/home/membership-section";
 import { Footer } from "@/components/home/footer";
+import { StructuredData } from "@/components/seo/structured-data";
 import { getHomePageData } from "@/lib/public-data";
+import { buildSiteStructuredData } from "@/lib/structured-data";
 
 export default async function Home() {
   await connection();
@@ -16,6 +18,12 @@ export default async function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans">
+      <StructuredData
+        data={buildSiteStructuredData({
+          branches: data.branches,
+          services: data.services,
+        })}
+      />
       <Navbar />
       <main className="flex-1 w-full flex flex-col">
         <HeroSection

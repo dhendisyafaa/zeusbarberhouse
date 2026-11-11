@@ -4,10 +4,22 @@ import type { Metadata } from 'next';
 import { connection } from 'next/server';
 import { PublicPageFrame } from '@/components/home/public-page-frame';
 import { getPublicHaircutModels } from '@/lib/public-data';
+import { siteConfig } from '@/lib/site-config';
 
 export const metadata: Metadata = {
-  title: 'Inspirasi Model Rambut | Zeus BarberHouse',
-  description: 'Lihat model haircut yang tersedia dari barber Zeus.',
+  title: 'Inspirasi Model Rambut Pria',
+  description:
+    'Lihat galeri model haircut pria dari barber Zeus BarberHouse. Temukan referensi potongan rambut favoritmu sebelum booking.',
+  alternates: {
+    canonical: '/haircut-models',
+  },
+  openGraph: {
+    title: 'Inspirasi Model Rambut Pria Zeus BarberHouse',
+    description:
+      'Galeri model haircut pria untuk referensi sebelum booking di Zeus BarberHouse.',
+    url: '/haircut-models',
+    images: [siteConfig.ogImage],
+  },
 };
 
 export default async function HaircutModelsPage() {

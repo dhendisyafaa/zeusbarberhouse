@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import { AdminLoginForm } from "@/components/admin/admin-login-form";
 
 export const metadata: Metadata = {
-  title: "Admin Login | Zeus BarberHouse",
+  title: "Admin Login",
+  alternates: { canonical: "/admin/login" },
   robots: { index: false, follow: false },
 };
 

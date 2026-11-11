@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { CustomerAuthForm } from '@/components/customer/customer-auth-form';
 
 export const metadata: Metadata = {
-  title: 'Daftar Member | Zeus BarberHouse',
+  title: 'Daftar Member',
+  alternates: { canonical: '/register' },
   robots: { index: false, follow: false },
 };
 

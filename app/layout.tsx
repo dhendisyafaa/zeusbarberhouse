@@ -1,15 +1,81 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { AppQueryProvider } from "@/components/app-query-provider";
 import { ThemeProvider } from "@/components/theme-provider";
+import { siteConfig, siteVerification } from "@/lib/site-config";
 import "./globals.css";
 
+const defaultTitle = `${siteConfig.name} | ${siteConfig.tagline}`;
+
+const verification: NonNullable<Metadata["verification"]> = {};
+
+if (siteVerification.google) {
+  verification.google = siteVerification.google;
+}
+
+if (siteVerification.bing) {
+  verification.other = { "msvalidate.01": siteVerification.bing };
+}
+
 export const metadata: Metadata = {
-  title: "Zeus BarberHouse | Feel at Home, Leave Refreshed",
-  description:
-    "Barbershop paling santai di Bandung Raya. Feel at home, leave refreshed.",
-  icons: {
-    icon: "/zeus-logo.jpg",
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: defaultTitle,
+    template: `%s | ${siteConfig.name}`,
   },
+  description: siteConfig.description,
+  applicationName: siteConfig.name,
+  keywords: [...siteConfig.keywords],
+  authors: [{ name: siteConfig.name, url: siteConfig.url }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "Beauty & Personal Care",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
+    title: defaultTitle,
+    description: siteConfig.description,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 1200,
+        height: 630,
+        alt: `${siteConfig.name} - ${siteConfig.tagline}`,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  ...(Object.keys(verification).length > 0 ? { verification } : {}),
+  icons: {
+    icon: siteConfig.logo,
+    apple: siteConfig.logo,
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#09090b",
 };
 
 export default function RootLayout({
@@ -18,7 +84,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className="dark h-full antialiased" suppressHydrationWarning>
+    <html lang={siteConfig.language} className="dark h-full antialiased" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
