@@ -22,9 +22,9 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-card/95 backdrop-blur-md border-b border-border">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
         {/* Brand Logo & Name */}
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href="/" className="flex shrink-0 items-center gap-3 group">
           <div className="relative w-10 h-10 overflow-hidden border border-border bg-background shrink-0">
             <Image
               src="/zeus-logo.jpg"
@@ -35,19 +35,19 @@ export function Navbar() {
             />
           </div>
           <div className="flex flex-col">
-            <span className="font-heading text-lg sm:text-xl font-bold uppercase tracking-wider text-foreground leading-none">
+            <span className="whitespace-nowrap font-heading text-base font-bold uppercase tracking-wider text-foreground leading-none xl:text-lg 2xl:text-xl">
               ZEUS BARBERHOUSE
             </span>
           </div>
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8 h-full">
+        <nav className="hidden xl:flex min-w-0 flex-1 items-center justify-center gap-5 2xl:gap-8 h-full">
           {navLinks.map((link) => (
             <a
               key={link.name}
               href={link.href}
-              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors py-2 border-b-2 border-transparent hover:border-primary"
+              className="whitespace-nowrap text-[11px] 2xl:text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:text-foreground transition-colors py-2 border-b-2 border-transparent hover:border-primary"
             >
               {link.name}
             </a>
@@ -55,7 +55,7 @@ export function Navbar() {
         </nav>
 
         {/* Action Buttons */}
-        <div className="hidden sm:flex items-center gap-4">
+        <div className="hidden shrink-0 sm:flex items-center gap-2 xl:gap-3 2xl:gap-4">
           <ThemeToggle />
           <Link
             href="/account"
@@ -66,7 +66,7 @@ export function Navbar() {
           </Link>
           <Link
             href="/booking"
-            className="bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-6 py-3.5 border border-primary transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_var(--foreground)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none inline-flex items-center gap-2"
+            className="whitespace-nowrap bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-4 py-3.5 2xl:px-6 border border-primary transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_var(--foreground)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none inline-flex items-center gap-2"
           >
             <Calendar className="w-3.5 h-3.5" />
             BOOKING NOW
@@ -76,7 +76,7 @@ export function Navbar() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-foreground border border-border bg-background focus:outline-none cursor-pointer"
+          className="xl:hidden p-2 text-foreground border border-border bg-background focus:outline-none cursor-pointer"
           aria-label="Toggle menu"
         >
           {mobileMenuOpen ? (
@@ -92,7 +92,7 @@ export function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-card border-b border-border px-4 py-6 space-y-4 animate-in slide-in-from-top-2 duration-200">
+        <div className="xl:hidden bg-card border-b border-border px-4 py-6 space-y-4 animate-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col space-y-3">
             {navLinks.map((link) => (
               <a
