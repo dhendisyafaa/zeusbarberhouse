@@ -1,4 +1,4 @@
-const fallbackSiteUrl = "https://zeusbarberhouse.com";
+const fallbackSiteUrl = "https://www.zeusbarber.my.id";
 
 export const siteConfig = {
   name: "Zeus BarberHouse",

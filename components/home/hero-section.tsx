@@ -34,7 +34,7 @@ export function HeroSection({
               Book Your Slot
             </Link>
             <a
-              href="#about"
+              href="#pricelist"
               className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground transition hover:border-primary"
             >
               <ArrowDown className="h-4 w-4" />
