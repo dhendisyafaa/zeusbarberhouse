@@ -275,7 +275,7 @@ function getValue(row: RecordData, path: string): unknown {
 
 function displayValue(value: unknown): string {
   if (typeof value === "boolean") return value ? "Active" : "Inactive";
-  if (value === null || value === undefined || value === "") return "â€”";
+  if (value === null || value === undefined || value === "") return "-";
   if (typeof value === "number") return value.toLocaleString("id-ID");
   if (typeof value === "string" && /^\d{4}-\d\d-\d\dT/.test(value)) {
     return new Date(value).toLocaleString("id-ID");
@@ -302,9 +302,6 @@ function PageShell({
           <div className="text-xs uppercase tracking-widest text-muted-foreground">
             Admin <span className="mx-2 text-subtle">/</span> {title}
           </div>
-          <span className="border border-border bg-background px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            Resource Console
-          </span>
         </header>
         <main className="min-w-0 space-y-6 px-4 py-6 sm:px-6 sm:py-8">
           <div>
@@ -358,13 +355,15 @@ function LoadingState() {
       className="border border-border bg-card px-5 py-8 text-sm text-muted-foreground"
       role="status"
     >
-      Loading dataâ€¦
+      Loading data...
     </div>
   );
 }
 
 function EmptyState({ children = "No records found." }: { children?: string }) {
-  return <div className="px-5 py-8 text-sm text-muted-foreground">{children}</div>;
+  return (
+    <div className="px-5 py-8 text-sm text-muted-foreground">{children}</div>
+  );
 }
 
 function ResourcePage({ resource }: { resource: keyof typeof configs }) {
@@ -533,7 +532,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
       {(error || loadError) && <Alert>{error || loadError}</Alert>}
       {rowsQuery.isFetching && !rowsQuery.isPending && (
         <p role="status" className="text-xs text-muted-foreground">
-          Refreshing recordsâ€¦ Showing cached data.
+          Refreshing records... Showing cached data.
         </p>
       )}
       {rowsQuery.isError && rowsQuery.data && (
@@ -584,7 +583,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
             </div>
             <div className="flex flex-wrap items-center gap-2 sm:gap-3">
               <span className="text-xs text-muted-foreground">
-                Page {page} Â· {rows.length} loaded
+                Page {page} - {rows.length} loaded
               </span>
               <button
                 type="button"
@@ -658,7 +657,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                                 <span className="text-xs text-warning">
                                   {column.key === "photoUrl"
                                     ? "Foto belum diunggah."
-                                    : "Image missing â€” upload a replacement."}
+                                    : "Image missing - upload a replacement."}
                                 </span>
                               )
                             ) : (
@@ -733,7 +732,9 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                   className="block text-xs font-semibold uppercase tracking-wide text-muted-foreground"
                 >
                   {item.label}
-                  {item.required && <span className="text-destructive"> *</span>}
+                  {item.required && (
+                    <span className="text-destructive"> *</span>
+                  )}
                   {item.type === "textarea" ? (
                     <textarea
                       required={item.required}
@@ -760,7 +761,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                       className={controlClass}
                     >
                       {item.required ? (
-                        <option value="">Select...</option>
+                        <option value="">Select</option>
                       ) : (
                         <option value="">No branch</option>
                       )}
@@ -788,7 +789,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                         {fileValue?.name ??
                           (editing
                             ? "Pilih file untuk mengganti gambar."
-                            : "JPEG, PNG, atau WebP Â· Maksimal 5 MB")}
+                            : "JPEG, PNG, atau WebP - Maksimal 5 MB")}
                       </span>
                     </>
                   ) : (
@@ -822,7 +823,7 @@ function ResourcePage({ resource }: { resource: keyof typeof configs }) {
                 disabled={isSaving}
                 className="bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-primary-hover disabled:opacity-50"
               >
-                {isSaving ? "Savingâ€¦" : editing ? "Save changes" : "Create"}
+                {isSaving ? "Saving..." : editing ? "Save changes" : "Create"}
               </button>
               {editing && (
                 <button
@@ -955,7 +956,7 @@ function BookingsPage() {
       )}
       {bookingsQuery.isFetching && !bookingsQuery.isPending && (
         <p role="status" className="text-xs text-muted-foreground">
-          Refreshing bookingsâ€¦ Showing cached data.
+          Refreshing bookings... Showing cached data.
         </p>
       )}
       {bookingsQuery.isError && bookingsQuery.data && (
@@ -1006,7 +1007,7 @@ function BookingsPage() {
           </select>
           <div className="flex items-center gap-2 self-center">
             <span className="text-xs text-muted-foreground">
-              Page {page} Â· {rows.length} loaded
+              Page {page} - {rows.length} loaded
             </span>
             <button
               type="button"
@@ -1060,15 +1061,15 @@ function BookingsPage() {
                       <div className="font-semibold">
                         {String(customer?.name || row.guestName || "Guest")}{" "}
                         <span className="text-muted-foreground">
-                          Â·{" "}
+                          -{" "}
                           {String(
                             customer?.phone || row.guestPhone || "No phone",
                           )}
                         </span>
                       </div>
                       <div className="mt-1 text-xs text-muted-foreground">
-                        {displayValue(row.startsAt || row.createdAt)} Â·{" "}
-                        {String(branch?.name || "Branch unavailable")} Â·{" "}
+                        {displayValue(row.startsAt || row.createdAt)} -{" "}
+                        {String(branch?.name || "Branch unavailable")} -{" "}
                         {String(barber?.name || "No barber")}
                       </div>
                       <div className="mt-2 text-sm text-foreground">
@@ -1129,7 +1130,7 @@ function BookingsPage() {
                         >
                           {bookingMutation.isPending &&
                           bookingMutation.variables?.id === id
-                            ? "Savingâ€¦"
+                            ? "Saving..."
                             : "Update status"}
                         </button>
                       </>
@@ -1301,7 +1302,7 @@ function SchedulesPage() {
   };
   const entityOptions = type === "branch" ? branches : barbers;
   const entity = (row: RecordData) => row[type] as RecordData | undefined;
-  const label = (row: RecordData) => String(entity(row)?.name || "â€”");
+  const label = (row: RecordData) => String(entity(row)?.name || "-");
 
   return (
     <PageShell
@@ -1330,7 +1331,7 @@ function SchedulesPage() {
       )}
       {schedulesQuery.isFetching && !schedulesQuery.isPending && (
         <p role="status" className="text-xs text-muted-foreground">
-          Refreshing schedulesâ€¦ Showing cached data.
+          Refreshing schedules... Showing cached data.
         </p>
       )}
       {schedulesQuery.isError && schedulesQuery.data && (
@@ -1383,18 +1384,18 @@ function SchedulesPage() {
                     <tr key={String(row.id)}>
                       <td className="px-4 py-3">{label(row)}</td>
                       <td className="px-4 py-3">
-                        {dayNames[Number(row.dayOfWeek)] || "â€”"}
+                        {dayNames[Number(row.dayOfWeek)] || "-"}
                       </td>
                       <td className="px-4 py-3">
                         {type === "branch"
-                          ? `${timeValue(row.openMinute)}â€“${timeValue(row.closeMinute)}`
-                          : `${timeValue(row.startMinute)}â€“${timeValue(row.endMinute)}`}
+                          ? `${timeValue(row.openMinute)}-${timeValue(row.closeMinute)}`
+                          : `${timeValue(row.startMinute)}-${timeValue(row.endMinute)}`}
                       </td>
                       {type === "barber" && (
                         <td className="px-4 py-3">
                           {row.breakStartMinute == null
-                            ? "â€”"
-                            : `${timeValue(row.breakStartMinute)}â€“${timeValue(row.breakEndMinute)}`}
+                            ? "-"
+                            : `${timeValue(row.breakStartMinute)}-${timeValue(row.breakEndMinute)}`}
                         </td>
                       )}
                       <td className="whitespace-nowrap px-4 py-3">
@@ -1437,7 +1438,7 @@ function SchedulesPage() {
                     }
                     className="mt-1 w-full border border-border bg-background px-3 py-2.5 text-sm text-foreground"
                   >
-                    <option value="">Selectâ€¦</option>
+                    <option value="">Select...</option>
                     {entityOptions.map((option) => (
                       <option key={option.id} value={option.id}>
                         {option.name}
@@ -1504,7 +1505,7 @@ function SchedulesPage() {
                 className="bg-primary text-primary-foreground px-4 py-2.5 text-xs font-bold uppercase tracking-wider hover:bg-primary-hover disabled:opacity-50"
               >
                 {mutation.isPending
-                  ? "Savingâ€¦"
+                  ? "Saving..."
                   : editing
                     ? "Save changes"
                     : "Create schedule"}
@@ -1576,7 +1577,7 @@ function ReportsPage() {
         barbersQuery.isFetching) &&
         !isLoading && (
           <p role="status" className="mb-3 text-xs text-muted-foreground">
-            Refreshing reportsâ€¦ Showing cached data.
+            Refreshing reports... Showing cached data.
           </p>
         )}
       {reportError &&

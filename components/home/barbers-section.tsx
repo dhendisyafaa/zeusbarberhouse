@@ -23,26 +23,22 @@ export function BarbersSection({ barbers }: { barbers: HomeBarber[] }) {
 
   return (
     <section
-      id="capster"
-      className="w-full border-t border-border bg-background py-20"
+      id="barbers"
+      className="w-full border-t border-border bg-background py-24"
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-2 border-b border-border pb-8">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-            <Scissors className="h-3.5 w-3.5 text-destructive" />
-            TIM CAPSTER
-          </div>
+        <div className="flex flex-col gap-3 pb-8 text-center">
           <h2 className="font-heading text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            CAPSTER ZEUS
+            Capster Zeus
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
-            Kenali capster aktif dan cabang tempat mereka bertugas.
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
+            Pilih barber yang paling cocok untuk gaya rambutmu.
           </p>
         </div>
 
         {barbers.length === 0 ? (
           <p className="border border-border bg-card p-6 text-sm text-muted-foreground">
-            Belum ada capster yang tersedia. Silakan cek kembali nanti.
+            Belum ada barber yang tersedia. Silakan cek kembali nanti.
           </p>
         ) : (
           /* Area Embla Viewport (Wajib overflow-hidden) */
@@ -57,7 +53,7 @@ export function BarbersSection({ barbers }: { barbers: HomeBarber[] }) {
                   key={barber.id}
                   className="min-w-0 flex-[0_0_80%] sm:flex-[0_0_45%] md:flex-[0_0_33.33%] lg:flex-[0_0_20%] pl-[20px]"
                 >
-                  <article className="flex h-full flex-col overflow-hidden border border-border bg-card transition-colors hover:border-primary">
+                  <article className="flex h-full flex-col overflow-hidden rounded-3xl border border-border bg-card transition-colors hover:border-primary">
                     <div className="relative aspect-[4/5] bg-inset">
                       {barber.photoUrl ? (
                         <Image
@@ -70,7 +66,7 @@ export function BarbersSection({ barbers }: { barbers: HomeBarber[] }) {
                       ) : (
                         <div className="flex h-full flex-col items-center justify-center gap-3 px-6 text-center text-sm text-muted-foreground">
                           <Scissors className="h-8 w-8 text-primary" />
-                          Foto capster belum tersedia.
+                          Foto barber belum tersedia.
                         </div>
                       )}
                     </div>

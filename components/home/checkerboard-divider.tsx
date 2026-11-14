@@ -16,7 +16,7 @@ export function CheckerboardDivider({
 
   return (
     <div
-      className={`h-[6px] w-full border-t border-b border-border ${gradientClass} ${className}`}
+      className={`h-px w-full border-t border-border ${gradientClass} ${className}`}
       role="presentation"
     />
   );

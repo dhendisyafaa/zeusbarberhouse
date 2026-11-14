@@ -52,68 +52,68 @@
 
 :root {
   color-scheme: light;
-  --background: #f5ecdc;
-  --foreground: #1c1917;
-  --card: #fffaf0;
-  --card-foreground: #1c1917;
-  --popover: #fffaf0;
-  --popover-foreground: #1c1917;
-  --primary: #0033a0;
+  --background: #eef2f7;
+  --foreground: #132038;
+  --card: #ffffff;
+  --card-foreground: #132038;
+  --popover: #ffffff;
+  --popover-foreground: #132038;
+  --primary: #d72f3f;
   --primary-foreground: #fafafa;
-  --primary-hover: #00277f;
-  --secondary: #eadfcd;
-  --secondary-foreground: #1c1917;
-  --muted: #ece1cf;
-  --muted-foreground: #5f5548;
-  --accent: #e3d5bd;
-  --accent-foreground: #1c1917;
-  --destructive: #b91c1c;
-  --destructive-foreground: #fffaf0;
-  --destructive-soft: #b91c1c;
-  --border: #9c876b;
-  --input: #8a765c;
-  --ring: #0033a0;
-  --inset: #efe3cf;
-  --hover: #e8dcc8;
-  --subtle: #6b5f50;
-  --subtle-foreground: #3f382f;
-  --info: #1d4ed8;
+  --primary-hover: #b92534;
+  --secondary: #dfe6f0;
+  --secondary-foreground: #132038;
+  --muted: #e4eaf2;
+  --muted-foreground: #53627a;
+  --accent: #d7e0ec;
+  --accent-foreground: #132038;
+  --destructive: #d72f3f;
+  --destructive-foreground: #fff;
+  --destructive-soft: #ff9aa4;
+  --border: #c4cfdd;
+  --input: #aebdce;
+  --ring: #d72f3f;
+  --inset: #e3eaf3;
+  --hover: #e0e8f2;
+  --subtle: #687891;
+  --subtle-foreground: #34445e;
+  --info: #294db8;
   --success: #047857;
   --warning: #a16207;
-  --shadow: #1c1917;
+  --shadow: #aebdce;
 }
 
 .dark {
   color-scheme: dark;
-  --background: #09090b;
-  --foreground: #fafafa;
-  --card: #1a1a1d;
-  --card-foreground: #fafafa;
-  --popover: #1a1a1d;
-  --popover-foreground: #fafafa;
-  --primary: #0033a0;
+  --background: #0c1528;
+  --foreground: #f5f7fb;
+  --card: #172238;
+  --card-foreground: #f5f7fb;
+  --popover: #172238;
+  --popover-foreground: #f5f7fb;
+  --primary: #d72f3f;
   --primary-foreground: #fafafa;
-  --primary-hover: #00277f;
-  --secondary: #1a1a1d;
-  --secondary-foreground: #fafafa;
-  --muted: #1a1a1d;
-  --muted-foreground: #a1a1aa;
-  --accent: #0033a0;
-  --accent-foreground: #fafafa;
-  --destructive: #ff2a2a;
-  --destructive-foreground: #fafafa;
-  --destructive-soft: #ffb4b4;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #0033a0;
-  --inset: #111113;
-  --hover: #2a2a2c;
-  --subtle: #52525b;
-  --subtle-foreground: #c4c5d5;
-  --info: #b6c4ff;
+  --primary-hover: #b92534;
+  --secondary: #202c42;
+  --secondary-foreground: #f5f7fb;
+  --muted: #202c42;
+  --muted-foreground: #aeb8ca;
+  --accent: #26344d;
+  --accent-foreground: #f5f7fb;
+  --destructive: #d72f3f;
+  --destructive-foreground: #fff;
+  --destructive-soft: #ff9aa4;
+  --border: #2c3a52;
+  --input: #35445e;
+  --ring: #d72f3f;
+  --inset: #101b30;
+  --hover: #202d45;
+  --subtle: #748199;
+  --subtle-foreground: #d2d9e5;
+  --info: #aebdff;
   --success: #6ee7b7;
   --warning: #fcd34d;
-  --shadow: #09090b;
+  --shadow: #050a14;
 }
 
 @layer base {
@@ -130,9 +130,21 @@
   }
 }
 
+.hero-surface {
+  background:
+    radial-gradient(circle at 75% 35%, rgba(215, 47, 63, 0.1), transparent 32%),
+    linear-gradient(180deg, #f8fafc 0%, var(--background) 75%);
+}
+
+.dark .hero-surface {
+  background:
+    radial-gradient(circle at 75% 35%, rgba(215, 47, 63, 0.18), transparent 32%),
+    linear-gradient(180deg, #0f1b31 0%, var(--background) 75%);
+}
+
 /* Custom Racing & Industrial Dividers */
 .racing-divider {
-  height: 6px;
+  height: 1px;
   width: 100%;
   background: repeating-linear-gradient(45deg, var(--background), var(--background) 10px, var(--foreground) 10px, var(--foreground) 20px);
   border-top: 1px solid var(--border);
@@ -140,7 +152,7 @@
 }
 
 .racing-divider-red {
-  height: 6px;
+  height: 2px;
   width: 100%;
   background: repeating-linear-gradient(45deg, var(--background), var(--background) 10px, var(--destructive) 10px, var(--destructive) 20px);
   border-top: 1px solid var(--border);
@@ -162,15 +174,15 @@
 
 /* Theme-aware decorative patterns */
 .checkerboard-default {
-  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 8px, var(--foreground) 8px, var(--foreground) 16px);
+  background-image: linear-gradient(90deg, var(--border), var(--border));
 }
 
 .checkerboard-crimson {
-  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 8px, var(--destructive) 8px, var(--destructive) 16px);
+  background-image: linear-gradient(90deg, var(--primary), var(--primary));
 }
 
 .checkerboard-blue {
-  background-image: repeating-linear-gradient(45deg, var(--background), var(--background) 8px, var(--primary) 8px, var(--primary) 16px);
+  background-image: linear-gradient(90deg, var(--primary), var(--primary));
 }
 
 .stripe-blue {

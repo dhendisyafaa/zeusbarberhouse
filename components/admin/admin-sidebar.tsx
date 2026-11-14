@@ -65,7 +65,9 @@ export function AdminSidebar({
       router.replace("/admin/login");
       router.refresh();
     } catch (error) {
-      setSignOutError(error instanceof Error ? error.message : "Could not sign out.");
+      setSignOutError(
+        error instanceof Error ? error.message : "Could not sign out.",
+      );
     } finally {
       setIsSigningOut(false);
     }
@@ -81,16 +83,56 @@ export function AdminSidebar({
   ];
 
   const resourceItems = [
-    { id: "bookings", label: "Bookings", icon: Receipt, href: "/admin/bookings" },
+    {
+      id: "bookings",
+      label: "Bookings",
+      icon: Receipt,
+      href: "/admin/bookings",
+    },
     { id: "branches", label: "Branches", icon: Store, href: "/admin/branches" },
-    { id: "services", label: "Services", icon: Scissors, href: "/admin/services" },
+    {
+      id: "services",
+      label: "Services",
+      icon: Scissors,
+      href: "/admin/services",
+    },
     { id: "barbers", label: "Barbers", icon: Users, href: "/admin/barbers" },
-    { id: "schedules", label: "Schedules", icon: CalendarDays, href: "/admin/schedules" },
-    { id: "haircut-models", label: "Haircut Models", icon: ImageIcon, href: "/admin/haircut-models" },
-    { id: "reports", label: "Reports", icon: BarChart3, href: "/admin/reports" },
-    { id: "membership", label: "Membership", icon: BadgeDollarSign, href: "/admin/membership" },
-    { id: "payment-options", label: "Payment Options", icon: CreditCard, href: "/admin/payment-options" },
-    { id: "career", label: "Career", icon: BriefcaseBusiness, href: "/admin/career" },
+    {
+      id: "schedules",
+      label: "Schedules",
+      icon: CalendarDays,
+      href: "/admin/schedules",
+    },
+    {
+      id: "haircut-models",
+      label: "Haircut Models",
+      icon: ImageIcon,
+      href: "/admin/haircut-models",
+    },
+    {
+      id: "reports",
+      label: "Reports",
+      icon: BarChart3,
+      href: "/admin/reports",
+    },
+    {
+      id: "membership",
+      label: "Membership",
+      icon: BadgeDollarSign,
+      href: "/admin/membership",
+    },
+    {
+      id: "payment-options",
+      label: "Payment Options",
+      icon: CreditCard,
+      href: "/admin/payment-options",
+    },
+    {
+      id: "career",
+      label: "Career",
+      icon: BriefcaseBusiness,
+      href: "/admin/career",
+    },
   ];
 
   return (
@@ -119,137 +161,137 @@ export function AdminSidebar({
           isOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-      <div className="flex flex-col">
-        {/* Brand Bar */}
-        <div className="flex h-16 items-center justify-between border-b border-border bg-background pl-14 pr-4 lg:px-4">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="relative h-8 w-8 overflow-hidden border border-border bg-background shrink-0">
-              <Image
-                src="/zeus-logo.jpg"
-                alt="Zeus BarberHouse"
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-            <div className="flex flex-col leading-none">
-              <span className="font-heading text-lg uppercase tracking-wider text-foreground font-bold">
-                ZEUS
-              </span>
-              <span className="text-[10px] tracking-widest text-muted-foreground uppercase font-semibold">
-                HAIR GARAGE BDG
-              </span>
-            </div>
-          </Link>
-          <span className="px-1.5 py-0.5 bg-primary text-[10px] font-bold uppercase text-primary-foreground border border-primary tracking-wider">
-            HQ OPS
-          </span>
-        </div>
-
-        {/* System Live Status */}
-        <div className="px-4 py-2 border-b border-border bg-inset flex items-center justify-between">
-          <span className="text-[11px] font-bold uppercase text-muted-foreground tracking-wider">
-            ADMIN WORKSPACE
-          </span>
-        </div>
-
-        {/* Section Header */}
-        <div className="px-4 pt-4 pb-2">
-          <span className="text-[10px] uppercase text-subtle tracking-wider font-bold">
-            OPERATIONAL CONSOLE
-          </span>
-        </div>
-
-        {/* Navigation Items */}
-        <nav className="flex flex-col px-2 gap-1">
-          {navItems.map((item) => {
-            const isActive = activeTab === item.id;
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                aria-current={isActive ? "page" : undefined}
-                className={`group flex items-center justify-between px-3 py-2.5 transition-all text-left ${
-                  isActive
-                    ? "bg-primary text-primary-foreground font-semibold border-l-4 border-destructive shadow-[2px_2px_0px_0px_var(--primary)]"
-                    : "text-subtle-foreground hover:bg-hover hover:text-foreground border-l-4 border-transparent"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <Icon className="w-4 h-4 shrink-0 text-current" />
-                  <span className="text-xs uppercase tracking-wider font-semibold">
-                    {item.label}
-                  </span>
-                </div>
-
-                <ChevronRight
-                  className={`w-3.5 h-3.5 ${
-                    isActive
-                      ? "text-primary-foreground"
-                      : "text-subtle group-hover:text-foreground"
-                  }`}
+        <div className="flex flex-col">
+          {/* Brand Bar */}
+          <div className="flex h-16 items-center justify-between border-b border-border bg-background pl-14 pr-4 lg:px-4">
+            <Link href="/" className="flex items-center gap-2 group">
+              <div className="relative h-8 w-8 overflow-hidden border border-border bg-background shrink-0">
+                <Image
+                  src="/zeus-logo.jpg"
+                  alt="Zeus BarberHouse"
+                  fill
+                  className="object-cover"
+                  priority
                 />
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="px-4 pt-5 pb-2">
-          <span className="text-[10px] uppercase text-subtle tracking-wider font-bold">
-            RESOURCE MANAGEMENT
-          </span>
-        </div>
-        <nav className="flex flex-col px-2 gap-1">
-          {resourceItems.map((item) => {
-            const isActive = activeTab === item.id;
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.id}
-                href={item.href}
-                onClick={() => setIsOpen(false)}
-                aria-current={isActive ? "page" : undefined}
-                className={`group flex items-center justify-between px-3 py-2.5 transition-all ${
-                  isActive
-                    ? "bg-primary text-primary-foreground font-semibold border-l-4 border-destructive shadow-[2px_2px_0px_0px_var(--primary)]"
-                    : "text-subtle-foreground hover:bg-hover hover:text-foreground border-l-4 border-transparent"
-                }`}
-              >
-                <span className="flex items-center gap-3">
-                  <Icon className="w-4 h-4 shrink-0 text-current" />
-                  <span className="text-xs uppercase tracking-wider font-semibold">
-                    {item.label}
-                  </span>
+              </div>
+              <div className="flex flex-col leading-none">
+                <span className="font-heading text-lg uppercase tracking-wider text-foreground font-bold">
+                  ZEUS
                 </span>
-                <ChevronRight className={`w-3.5 h-3.5 ${isActive ? "text-primary-foreground" : "text-subtle group-hover:text-foreground"}`} />
-              </Link>
-            );
-          })}
-        </nav>
-      </div>
+                <span className="text-[10px] tracking-widest text-muted-foreground uppercase font-semibold">
+                  BANDUNG
+                </span>
+              </div>
+            </Link>
+          </div>
 
-      <div className="p-3 border-t border-border bg-background flex flex-col gap-2">
-        <ThemeToggle showLabel />
-        <div className="flex items-center justify-between pt-1">
-          <span className="text-[10px] text-subtle uppercase font-mono font-medium">
-            ADMIN CONSOLE
-          </span>
-          <button
-            type="button"
-            onClick={() => void signOut()}
-            disabled={isSigningOut}
-            className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase text-muted-foreground hover:text-foreground disabled:opacity-50"
-          >
-            <LogOut className="h-3.5 w-3.5" />
-            {isSigningOut ? "Signing out…" : "Sign out"}
-          </button>
+          {/* System Live Status */}
+          <div className="px-4 py-2 border-b border-border bg-inset flex items-center justify-between">
+            <span className="text-[11px] font-bold uppercase text-muted-foreground tracking-wider">
+              ADMIN WORKSPACE
+            </span>
+          </div>
+
+          {/* Section Header */}
+          <div className="px-4 pt-4 pb-2">
+            <span className="text-[10px] uppercase text-subtle tracking-wider font-bold">
+              OPERATIONAL CONSOLE
+            </span>
+          </div>
+
+          {/* Navigation Items */}
+          <nav className="flex flex-col px-2 gap-1">
+            {navItems.map((item) => {
+              const isActive = activeTab === item.id;
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`group flex items-center justify-between px-3 py-2.5 transition-all text-left ${
+                    isActive
+                      ? "bg-primary text-primary-foreground font-semibold border-l-4 border-destructive shadow-[2px_2px_0px_0px_var(--primary)]"
+                      : "text-subtle-foreground hover:bg-hover hover:text-foreground border-l-4 border-transparent"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <Icon className="w-4 h-4 shrink-0 text-current" />
+                    <span className="text-xs uppercase tracking-wider font-semibold">
+                      {item.label}
+                    </span>
+                  </div>
+
+                  <ChevronRight
+                    className={`w-3.5 h-3.5 ${
+                      isActive
+                        ? "text-primary-foreground"
+                        : "text-subtle group-hover:text-foreground"
+                    }`}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
+
+          <div className="px-4 pt-5 pb-2">
+            <span className="text-[10px] uppercase text-subtle tracking-wider font-bold">
+              RESOURCE MANAGEMENT
+            </span>
+          </div>
+          <nav className="flex flex-col px-2 gap-1">
+            {resourceItems.map((item) => {
+              const isActive = activeTab === item.id;
+              const Icon = item.icon;
+
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  onClick={() => setIsOpen(false)}
+                  aria-current={isActive ? "page" : undefined}
+                  className={`group flex items-center justify-between px-3 py-2.5 transition-all ${
+                    isActive
+                      ? "bg-primary text-primary-foreground font-semibold border-l-4 border-destructive shadow-[2px_2px_0px_0px_var(--primary)]"
+                      : "text-subtle-foreground hover:bg-hover hover:text-foreground border-l-4 border-transparent"
+                  }`}
+                >
+                  <span className="flex items-center gap-3">
+                    <Icon className="w-4 h-4 shrink-0 text-current" />
+                    <span className="text-xs uppercase tracking-wider font-semibold">
+                      {item.label}
+                    </span>
+                  </span>
+                  <ChevronRight
+                    className={`w-3.5 h-3.5 ${isActive ? "text-primary-foreground" : "text-subtle group-hover:text-foreground"}`}
+                  />
+                </Link>
+              );
+            })}
+          </nav>
         </div>
-        {signOutError && <p role="alert" className="text-xs text-destructive">{signOutError}</p>}
-      </div>
+
+        <div className="p-3 border-t border-border bg-background flex flex-col gap-2">
+          <ThemeToggle showLabel />
+          <div className="flex items-center justify-between pt-1">
+            <button
+              type="button"
+              onClick={() => void signOut()}
+              disabled={isSigningOut}
+              className="inline-flex items-center gap-1.5 text-[10px] font-bold uppercase text-muted-foreground hover:text-foreground disabled:opacity-50"
+            >
+              <LogOut className="h-3.5 w-3.5" />
+              {isSigningOut ? "Signing out…" : "Sign out"}
+            </button>
+          </div>
+          {signOutError && (
+            <p role="alert" className="text-xs text-destructive">
+              {signOutError}
+            </p>
+          )}
+        </div>
       </aside>
     </>
   );

@@ -11,21 +11,28 @@ type Branch = {
   schedules: { dayOfWeek: number; open: string; close: string }[];
 };
 
-const dayLabels = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+const dayLabels = [
+  "Minggu",
+  "Senin",
+  "Selasa",
+  "Rabu",
+  "Kamis",
+  "Jumat",
+  "Sabtu",
+];
 
 export function BranchesSection({ branches }: { branches: Branch[] }) {
   return (
-    <section id="cabang" className="w-full border-t border-border bg-background py-20">
+    <section
+      id="locations"
+      className="w-full border-t border-border bg-background py-24"
+    >
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-2 border-b border-border pb-8">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-            <MapPin className="h-3.5 w-3.5 text-destructive" />
-            LOKASI KAMI
-          </div>
+        <div className="flex flex-col gap-3 pb-8 text-center">
           <h2 className="font-heading text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            CABANG ZEUS
+            Lokasi Zeus
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
             Informasi lokasi dan jadwal operasional dari cabang aktif.
           </p>
         </div>
@@ -37,7 +44,10 @@ export function BranchesSection({ branches }: { branches: Branch[] }) {
         ) : (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {branches.map((branch, index) => (
-              <article key={branch.id} className="flex flex-col border border-border bg-card">
+              <article
+                key={branch.id}
+                className="flex flex-col overflow-hidden rounded-3xl border border-border bg-card"
+              >
                 <div className="border-b border-border bg-inset p-5">
                   <span className="text-[11px] font-bold uppercase tracking-wider text-destructive">
                     CABANG {String(index + 1).padStart(2, "0")} · {branch.city}
@@ -52,7 +62,10 @@ export function BranchesSection({ branches }: { branches: Branch[] }) {
                     {branch.address}
                   </p>
                   {branch.phone && (
-                    <a className="text-sm text-muted-foreground hover:text-foreground" href={`tel:${branch.phone}`}>
+                    <a
+                      className="text-sm text-muted-foreground hover:text-foreground"
+                      href={`tel:${branch.phone}`}
+                    >
                       {branch.phone}
                     </a>
                   )}
@@ -64,14 +77,23 @@ export function BranchesSection({ branches }: { branches: Branch[] }) {
                     {branch.schedules.length ? (
                       <ul className="space-y-1 text-xs text-muted-foreground">
                         {branch.schedules.map((schedule) => (
-                          <li key={schedule.dayOfWeek} className="flex justify-between gap-3">
-                            <span>{dayLabels[schedule.dayOfWeek] ?? "Hari"}</span>
-                            <span>{schedule.open}–{schedule.close}</span>
+                          <li
+                            key={schedule.dayOfWeek}
+                            className="flex justify-between gap-3"
+                          >
+                            <span>
+                              {dayLabels[schedule.dayOfWeek] ?? "Hari"}
+                            </span>
+                            <span>
+                              {schedule.open}–{schedule.close}
+                            </span>
                           </li>
                         ))}
                       </ul>
                     ) : (
-                      <p className="text-xs text-muted-foreground">Jadwal operasional belum tersedia.</p>
+                      <p className="text-xs text-muted-foreground">
+                        Jadwal operasional belum tersedia.
+                      </p>
                     )}
                   </div>
                 </div>

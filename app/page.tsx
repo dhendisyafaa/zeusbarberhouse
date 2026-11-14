@@ -4,9 +4,10 @@ import { HeroSection } from "@/components/home/hero-section";
 import { CheckerboardDivider } from "@/components/home/checkerboard-divider";
 import { ServicesSection } from "@/components/home/services-section";
 import { BarbersSection } from "@/components/home/barbers-section";
-import { BookingFeatureSection } from "@/components/home/booking-feature-section";
 import { BranchesSection } from "@/components/home/branches-section";
 import { MembershipSection } from "@/components/home/membership-section";
+import { GallerySection } from "@/components/home/gallery-section";
+import { FeedbackSection } from "@/components/home/feedback-section";
 import { Footer } from "@/components/home/footer";
 import { StructuredData } from "@/components/seo/structured-data";
 import { getHomePageData } from "@/lib/public-data";
@@ -33,17 +34,12 @@ export default async function Home() {
         <CheckerboardDivider variant="crimson" />
         <ServicesSection services={data.services} />
         <BarbersSection barbers={data.barbers} />
-
-        {/* Section 3: 15-Minute Soft-Lock Booking Feature */}
-        {/* <BookingFeatureSection /> */}
-
-        {/* Section 4: 3 Official Branches */}
+        <GallerySection items={[]} />
         <BranchesSection branches={data.branches} />
-
-        {/* Section 5: VIP Membership Program */}
         <MembershipSection
           pointsPerCompletedBooking={data.pointsPerCompletedBooking}
         />
+        <FeedbackSection />
       </main>
 
       {/* Footer */}

@@ -61,7 +61,7 @@ export function CapsterDutyGrid({ roster }: CapsterDutyGridProps) {
                         </span>
                       </div>
                       <span className="break-words text-xs font-medium text-muted-foreground">
-                        {capster.branch} â€¢ {capster.chairNo}
+                        {capster.branch} - {capster.chairNo}
                       </span>
                     </div>
 

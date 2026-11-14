@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, CheckCircle2, Clock, Sparkles } from "lucide-react";
+import { ArrowRight, CheckCircle2, Clock } from "lucide-react";
 
 type Service = {
   id: string;
@@ -11,17 +11,16 @@ type Service = {
 
 export function ServicesSection({ services }: { services: Service[] }) {
   return (
-    <section id="layanan" className="w-full border-t border-border bg-background py-20">
+    <section
+      id="pricelist"
+      className="w-full border-t border-border bg-background py-24"
+    >
       <div className="mx-auto flex max-w-7xl flex-col gap-10 px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-2 border-b border-border pb-8">
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-            <Sparkles className="h-3.5 w-3.5 text-destructive" />
-            MENU & HARGA
-          </div>
-          <h2 className="font-heading text-3xl font-extrabold uppercase tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-            LAYANAN & HARGA
+        <div className="flex flex-col gap-3 pb-8 text-center">
+          <h2 className="font-heading text-4xl font-extrabold uppercase tracking-tight text-foreground sm:text-5xl">
+            Layanan <span className="text-primary">&amp; Harga</span>
           </h2>
-          <p className="max-w-2xl text-sm text-muted-foreground sm:text-base">
+          <p className="mx-auto max-w-2xl text-sm text-muted-foreground sm:text-base">
             Harga dan durasi mengikuti layanan aktif yang tersedia saat ini.
           </p>
         </div>
@@ -35,7 +34,7 @@ export function ServicesSection({ services }: { services: Service[] }) {
             {services.map((service) => (
               <article
                 key={service.id}
-                className="flex flex-col justify-between border border-border bg-card p-6 transition-colors hover:border-primary"
+                className="flex flex-col justify-between rounded-3xl border border-border bg-card p-6 transition-colors hover:border-primary"
               >
                 <div>
                   <div className="mb-3 flex items-center justify-between gap-3 text-xs text-muted-foreground">
@@ -51,7 +50,8 @@ export function ServicesSection({ services }: { services: Service[] }) {
                     {service.name}
                   </h3>
                   <p className="min-h-12 text-sm leading-relaxed text-muted-foreground">
-                    {service.description || "Layanan tersedia untuk booking di cabang Zeus."}
+                    {service.description ||
+                      "Layanan tersedia untuk booking di cabang Zeus."}
                   </p>
                 </div>
                 <div className="mt-6 flex items-center justify-between border-t border-border pt-4">

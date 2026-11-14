@@ -1,4 +1,4 @@
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { CheckerboardDivider } from "./checkerboard-divider";
@@ -152,7 +152,7 @@ export function Footer() {
                 Cara Booking Online
               </a>
               <Link
-                href="/#capster"
+                href="/#barbers"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Capster
@@ -176,7 +176,7 @@ export function Footer() {
                 Karier
               </Link>
               <a
-                href="#membership"
+                href="#about"
                 className="text-muted-foreground hover:text-foreground transition-colors"
               >
                 Zeus VIP Club Membership

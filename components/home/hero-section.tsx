@@ -1,14 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import {
-  Calendar,
-  Clock,
-  Store,
-  Scissors,
-  Users,
-  Star,
-  ShieldCheck,
-} from "lucide-react";
+import { ArrowDown, Calendar, MapPin } from "lucide-react";
 
 export function HeroSection({
   branchCount,
@@ -18,129 +10,73 @@ export function HeroSection({
   barberCount: number;
 }) {
   return (
-    <section className="relative w-full bg-background pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
-      {/* Background Grid Pattern */}
-      <div className="absolute inset-0 opacity-15 pointer-events-none dot-grid [background-size:20px_20px]" />
+    <section className="hero-surface relative flex min-h-[680px] items-center overflow-hidden pt-28 sm:min-h-[760px]">
+      <div className="absolute -right-32 top-32 h-80 w-80 rounded-full border border-primary/20 sm:h-[30rem] sm:w-[30rem]" />
+      <div className="absolute -right-20 top-44 h-64 w-64 rounded-full border border-primary/10 sm:h-96 sm:w-96" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Hero Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center mb-16">
-          {/* Left Column: Headlines & CTAs */}
-          <div className="lg:col-span-8 flex flex-col gap-6">
-            <h1 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-extrabold uppercase tracking-tight text-foreground leading-[0.98]">
-              FEEL AT HOME.
-              <br />
-              <span className="text-destructive selection:bg-primary selection:text-primary-foreground">
-                LEAVE REFRESHED.
-              </span>
-            </h1>
-
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl leading-relaxed">
-              Tempat potong rambut paling santai di Bandung Raya. Gak ada drama
-              antre lama apalagi hasil potongan buru-buru. Tinggal pilih jadwal,
-              pilih capster andalan lu, dan nikmati potongan presisi sambil
-              ngopi santai.
-            </p>
-
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-2">
-              <Link
-                href="/booking"
-                className="bg-primary text-primary-foreground text-sm sm:text-base font-bold uppercase tracking-wider px-8 py-4 border border-primary transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_var(--foreground)] active:translate-x-0.5 active:translate-y-0.5 active:shadow-none inline-flex items-center gap-2.5"
-              >
-                <Calendar className="w-5 h-5" />
-                BOOKING JADWAL SEKARANG
-              </Link>
-              <a
-                href="#layanan"
-                className="bg-transparent text-foreground border border-border hover:bg-card hover:border-primary text-sm sm:text-base font-semibold uppercase tracking-wider px-8 py-4 transition-all duration-150 inline-flex items-center gap-2"
-              >
-                <Scissors className="w-4 h-4 text-muted-foreground" />
-                LIHAT DAFTAR LAYANAN
-              </a>
-            </div>
-          </div>
-
-          {/* Right Column: Industrial Badge Showcase */}
-          <div className="lg:col-span-4 flex flex-col items-center justify-center p-8 bg-card border border-border relative group hover:border-primary transition-colors">
-            {/* Corner Decorative Marks */}
-            <div className="absolute top-2 left-2 text-[10px] text-subtle font-mono">
-              [SEC-01]
-            </div>
-            <div className="absolute top-2 right-2 text-[10px] text-subtle font-mono">
-              BDG-2024
-            </div>
-
-            <div className="relative w-44 h-44 sm:w-52 sm:h-52 my-4">
-              <Image
-                src="/zeus-logo.jpg"
-                alt="Zeus Official Badge"
-                fill
-                className="object-contain filter drop-shadow-xl"
-                priority
-              />
-            </div>
+      <div className="relative z-10 mx-auto grid w-full max-w-7xl gap-12 px-5 pb-20 sm:px-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div>
+          <h1 className="max-w-3xl font-heading text-5xl font-extrabold uppercase leading-[0.95] tracking-tight text-foreground sm:text-7xl lg:text-8xl">
+            Feel at Home.
+            <br />
+            <span className="text-primary">Leave Refreshed.</span>
+          </h1>
+          <p className="mt-7 max-w-xl text-sm leading-7 text-muted-foreground sm:text-base">
+            Tempat potong rambut yang hangat, santai, dan presisi. Pilih
+            layanan, tentukan kursi, lalu datang dengan tenang.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/booking"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary-hover"
+            >
+              <Calendar className="h-4 w-4" />
+              Book Your Slot
+            </Link>
+            <a
+              href="#about"
+              className="inline-flex items-center gap-2 rounded-full border border-border px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-foreground transition hover:border-primary"
+            >
+              <ArrowDown className="h-4 w-4" />
+              Explore Zeus
+            </a>
           </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          {/* Stat 1 */}
-          <div className="bg-card border border-border p-5 flex flex-col justify-between hover:border-primary transition-colors">
-            <div className="flex items-center justify-between text-primary mb-2">
-              <Store className="w-5 h-5" />
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                LOKASI
-              </span>
-            </div>
-            <div className="font-heading text-2xl sm:text-3xl font-extrabold uppercase text-foreground">
-              {branchCount} CABANG
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Lokasi cabang aktif</p>
+        <div className="relative mx-auto flex aspect-square w-full max-w-[420px] items-center justify-center rounded-[2.5rem] border border-border bg-card/70 p-10 shadow-[0_24px_70px_-35px_var(--shadow)]">
+          <div className="absolute inset-5 rounded-[2rem] border border-primary/20" />
+          <Image
+            src="/zeus-logo.jpg"
+            alt="Zeus Barberhouse"
+            fill
+            sizes="(max-width: 1024px) 90vw, 420px"
+            className="relative z-10 object-contain p-20 sm:p-24"
+            priority
+          />
+          <div className="absolute bottom-7 left-7 z-20 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <MapPin className="h-4 w-4 text-primary" />
+            Bandung Raya
           </div>
+        </div>
 
-          {/* Stat 2 */}
-          <div className="bg-card border border-border p-5 flex flex-col justify-between hover:border-primary transition-colors">
-            <div className="flex items-center justify-between text-primary mb-2">
-              <Scissors className="w-5 h-5" />
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                CREW
-              </span>
-            </div>
-            <div className="font-heading text-2xl sm:text-3xl font-extrabold uppercase text-foreground">
-              {barberCount} CAPSTER
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Capster aktif</p>
+        <div className="grid grid-cols-2 gap-3 lg:col-span-2 lg:max-w-2xl">
+          <div className="rounded-2xl border border-border bg-card/80 p-4">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+              Cabang
+            </span>
+            <strong className="mt-2 block font-heading text-3xl text-foreground">
+              {branchCount}
+            </strong>
+            <span className="text-xs text-muted-foreground">cabang aktif</span>
           </div>
-
-          {/* Stat 3 */}
-          <div className="bg-card border border-border p-5 flex flex-col justify-between hover:border-primary transition-colors">
-            <div className="flex items-center justify-between text-primary mb-2">
-              <Users className="w-5 h-5" />
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                Layanan
-              </span>
-            </div>
-            <div className="font-heading text-2xl sm:text-3xl font-extrabold uppercase text-foreground">
-              10.000+
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">Glow-up dengan instan</p>
-          </div>
-
-          {/* Stat 4 */}
-          <div className="bg-card border border-border p-5 flex flex-col justify-between hover:border-destructive transition-colors">
-            <div className="flex items-center justify-between text-destructive mb-2">
-              <Star className="w-5 h-5 fill-destructive" />
-              <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-wider">
-                RATING
-              </span>
-            </div>
-            <div className="font-heading text-2xl sm:text-3xl font-extrabold uppercase text-foreground">
-              4.9 / 5.0
-            </div>
-            <p className="text-xs text-muted-foreground mt-1">
-              Rata-rata ulasan Google Maps
-            </p>
+          <div className="rounded-2xl border border-border bg-card/80 p-4">
+            <span className="text-xs uppercase tracking-widest text-muted-foreground">
+              Barber
+            </span>
+            <strong className="mt-2 block font-heading text-3xl text-foreground">
+              {barberCount}
+            </strong>
+            <span className="text-xs text-muted-foreground">barber aktif</span>
           </div>
         </div>
       </div>

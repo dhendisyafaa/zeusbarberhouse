@@ -14,14 +14,14 @@ export function BookingFeatureSection() {
       step: "01",
       title: "Pilih Cabang & Capster",
       description:
-        "Pilih cabang aktif, lihat capster yang tersedia, lalu tentukan jadwal sesuai operasional masing-masing.",
+        "Pilih cabang aktif, lihat barber yang tersedia, lalu tentukan jadwal sesuai operasional masing-masing.",
       icon: StoreIcon,
     },
     {
       step: "02",
       title: "Kunci Slot 15 Menit",
       description:
-        "Pilih tanggal dan jam potong. Begitu lu klik pesan, slot itu otomatis di-lock selama 15 menit khusus buat lu. Gak bakal diserobot orang lain!",
+        "Pilih tanggal dan jam potong. Begitu kamu klik pesan, slot itu otomatis di-lock selama 15 menit khusus untuk kamu. Tidak akan diserobot orang lain!",
       icon: Lock,
       highlight: true,
     },
@@ -29,7 +29,7 @@ export function BookingFeatureSection() {
       step: "03",
       title: "Upload Bukti & Beres",
       description:
-        "Lakuin transfer manual dan upload bukti bayarnya sebelum 15 menit habis. Admin langsung konfirmasi jadwal lu dan lu tinggal datang pas jamnya.",
+        "Lakukan transfer manual dan upload bukti bayarnya sebelum 15 menit habis. Admin langsung mengonfirmasi jadwal kamu dan kamu tinggal datang sesuai jamnya.",
       icon: CalendarCheck2,
     },
   ];
@@ -39,10 +39,10 @@ export function BookingFeatureSection() {
   }
 
   return (
-    <section id="booking-info" className="w-full bg-card py-20 border-t border-border relative overflow-hidden">
+    <section id="booking-info" className="relative w-full overflow-hidden border-t border-border bg-card py-24">
       {/* Background Subtle Accent */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12 border-b border-border pb-8">
+        <div className="mb-12 flex flex-col justify-between gap-6 border-b border-border pb-8 lg:flex-row lg:items-end">
           <div>
             <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-destructive mb-2">
               <Clock className="w-4 h-4 text-destructive" />
@@ -52,14 +52,14 @@ export function BookingFeatureSection() {
               BOOKING JADWAL CEPAT & ANTI BENTROK
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mt-2">
-              Gak perlu download aplikasi tambahan atau daftar akun ribet. Mau pesan
-              sebagai tamu (guest booking) juga bisa langsung jalan dalam 2 menit.
+              Tidak perlu download aplikasi tambahan atau daftar akun yang rumit. Kamu
+              juga bisa memesan sebagai tamu dalam waktu singkat.
             </p>
           </div>
 
           <Link
             href="/booking"
-            className="self-start lg:self-end bg-primary text-primary-foreground text-xs font-bold uppercase tracking-wider px-8 py-4 border border-primary transition-all duration-150 hover:-translate-x-0.5 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_0px_var(--foreground)] inline-flex items-center gap-2 shrink-0"
+            className="inline-flex shrink-0 items-center gap-2 self-start rounded-full border border-primary bg-primary px-8 py-4 text-xs font-bold uppercase tracking-wider text-primary-foreground transition-all duration-150 hover:bg-primary-hover lg:self-end"
           >
             <span>MULAI BOOKING SEKARANG</span>
             <ArrowRight className="w-4 h-4" />
@@ -73,7 +73,7 @@ export function BookingFeatureSection() {
             return (
               <div
                 key={idx}
-                className={`p-6 bg-background border border-border relative flex flex-col justify-between hover:border-primary transition-colors ${
+                className={`relative flex flex-col justify-between rounded-3xl border border-border bg-background p-6 transition-colors hover:border-primary ${
                   item.highlight ? "border-primary/60 ring-1 ring-primary/30" : ""
                 }`}
               >
@@ -82,7 +82,7 @@ export function BookingFeatureSection() {
                     <span className="font-heading text-3xl font-extrabold text-primary">
                       {item.step}
                     </span>
-                    <div className="w-10 h-10 border border-border bg-card flex items-center justify-center text-foreground">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground">
                       <Icon className="w-5 h-5 text-foreground" />
                     </div>
                   </div>
@@ -107,12 +107,12 @@ export function BookingFeatureSection() {
         </div>
 
         {/* Reassurance Box */}
-        <div className="bg-background border border-border p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div className="flex flex-col items-center justify-between gap-4 rounded-3xl border border-border bg-background p-6 sm:flex-row">
           <div className="flex items-center gap-3">
             <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
             <p className="text-xs sm:text-sm text-foreground">
               <strong>Bisa Guest Booking:</strong> Tanpa harus ribet bikin akun atau password,
-              lu udah bisa booking jadwal langsung!
+              kamu sudah bisa booking jadwal langsung!
             </p>
           </div>
           <Link
