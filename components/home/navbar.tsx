@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Calendar, Menu, X } from "lucide-react";
+import { Calendar, Menu, UserRound, X } from "lucide-react";
 import { useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -53,6 +53,13 @@ export function Navbar() {
             <Calendar className="h-3.5 w-3.5" />
             Booking
           </Link>
+          <Link
+            href="/account"
+            className="hidden items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-xs font-bold uppercase tracking-wider text-foreground transition hover:border-primary sm:inline-flex"
+          >
+            <UserRound className="h-3.5 w-3.5" />
+            Akun
+          </Link>
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
@@ -83,7 +90,14 @@ export function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="mt-4 rounded-full bg-primary py-3.5 text-center text-xs font-bold uppercase tracking-wider text-primary-foreground"
             >
-              Reserve Your Chair
+              Booking
+            </Link>
+            <Link
+              href="/account"
+              onClick={() => setMenuOpen(false)}
+              className="rounded-full border border-border py-3.5 text-center text-xs font-bold uppercase tracking-wider text-foreground"
+            >
+              Akun Member
             </Link>
           </div>
         </div>
